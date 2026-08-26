@@ -1,5 +1,4 @@
 // ================= MOBILE MENU =================
-
 const menuBtn = document.querySelector(".menu-btn");
 const navLinks = document.querySelector(".nav-links");
 
@@ -9,9 +8,7 @@ if (menuBtn && navLinks) {
     });
 }
 
-
-// ================= CLOSE MENU =================
-
+// ================= CLOSE MENU ON CLICK =================
 document.querySelectorAll(".nav-links a").forEach(link => {
     link.addEventListener("click", () => {
         if (navLinks) {
@@ -20,9 +17,7 @@ document.querySelectorAll(".nav-links a").forEach(link => {
     });
 });
 
-
 // ================= SKILL PROGRESS =================
-
 const progressCircles = document.querySelectorAll(".progress-circle");
 
 progressCircles.forEach(circle => {
@@ -38,9 +33,7 @@ progressCircles.forEach(circle => {
     `;
 });
 
-
 // ================= COUNTER ANIMATION =================
-
 const counters = document.querySelectorAll(".counter");
 let started = false;
 
@@ -80,9 +73,7 @@ function startCounter() {
 
 window.addEventListener("scroll", startCounter);
 
-
 // ================= CONTACT FORM =================
-
 const form = document.querySelector(".contact-form");
 
 if (form) {
@@ -106,10 +97,10 @@ if (form) {
                 alert(`Thanks ${userName}! আপনার মেসেজটি সফলভাবে পৌঁছেছে। Mr. Moin খুব শীঘ্রই আপনার সাথে যোগাযোগ করবেন।`);
                 form.reset();
             } else {
-                alert("দুঃখিত, মেসেজ পাঠানো সম্ভব হয়নি। আবার চেষ্টা করুন।");
+                alert("দুঃখিত, মেসেজ পাঠানো সম্ভব হয়নি। আবার চেষ্টা করুন।");
             }
         } catch (error) {
-            alert("নেটওয়ার্ক সমস্যা! আপনার ইন্টারনেট কানেকশনটি চেক করুন।");
+            alert("নেটওয়ার্ক সমস্যা! আপনার ইন্টারনেট কানেকশনটি চেক করুন।");
         }
     });
 }
