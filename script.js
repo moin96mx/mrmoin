@@ -1,130 +1,130 @@
-// ================= MOBILE MENU =================
+// // ================= MOBILE MENU =================
 
-const menuBtn = document.querySelector(".menu-btn");
-const navLinks = document.querySelector(".nav-links");
+// const menuBtn = document.querySelector(".menu-btn");
+// const navLinks = document.querySelector(".nav-links");
 
-menuBtn.addEventListener("click", () => {
-    navLinks.classList.toggle("active");
-});
-
-
-// ================= CLOSE MENU =================
-
-document.querySelectorAll(".nav-links a").forEach(link => {
-
-    link.addEventListener("click", () => {
-        navLinks.classList.remove("active");
-    });
-
-});
+// menuBtn.addEventListener("click", () => {
+//     navLinks.classList.toggle("active");
+// });
 
 
-// ================= SKILL PROGRESS =================
+// // ================= CLOSE MENU =================
 
-const progressCircles = document.querySelectorAll(".progress-circle");
+// document.querySelectorAll(".nav-links a").forEach(link => {
 
-progressCircles.forEach(circle => {
+//     link.addEventListener("click", () => {
+//         navLinks.classList.remove("active");
+//     });
 
-    const percent = circle.dataset.percent;
-
-    const degree = percent * 3.6;
-
-    circle.style.background = `
-        conic-gradient(
-            #8b3dff 0deg,
-            #00b7ff ${degree}deg,
-            #182033 ${degree}deg
-        )
-    `;
-
-});
+// });
 
 
-// ================= COUNTER ANIMATION =================
+// // ================= SKILL PROGRESS =================
 
-const counters = document.querySelectorAll(".counter");
+// const progressCircles = document.querySelectorAll(".progress-circle");
 
-let started = false;
+// progressCircles.forEach(circle => {
 
+//     const percent = circle.dataset.percent;
 
-function startCounter() {
+//     const degree = percent * 3.6;
 
-    if (started) return;
+//     circle.style.background = `
+//         conic-gradient(
+//             #8b3dff 0deg,
+//             #00b7ff ${degree}deg,
+//             #182033 ${degree}deg
+//         )
+//     `;
 
-    const terminal =
-        document.querySelector(".terminal-section");
-
-    const position =
-        terminal.getBoundingClientRect().top;
-
-    const screenPosition =
-        window.innerHeight;
-
-
-    if (position < screenPosition) {
-
-        counters.forEach(counter => {
-
-            const target =
-                +counter.dataset.target;
-
-            let count = 0;
-
-            const speed =
-                Math.ceil(target / 50);
+// });
 
 
-            const updateCounter = () => {
+// // ================= COUNTER ANIMATION =================
 
-                if (count < target) {
+// const counters = document.querySelectorAll(".counter");
 
-                    count += speed;
-
-                    if (count > target) {
-                        count = target;
-                    }
-
-                    counter.innerText = count + "+";
-
-                    setTimeout(
-                        updateCounter,
-                        40
-                    );
-
-                }
-
-            };
-
-            updateCounter();
-
-        });
+// let started = false;
 
 
-        started = true;
+// function startCounter() {
 
-    }
+//     if (started) return;
 
-}
+//     const terminal =
+//         document.querySelector(".terminal-section");
 
+//     const position =
+//         terminal.getBoundingClientRect().top;
 
-window.addEventListener(
-    "scroll",
-    startCounter
-);
-
-
-// ================= CONTACT FORM =================
-
-const form =
-    document.querySelector(".contact-form");
+//     const screenPosition =
+//         window.innerHeight;
 
 
-form.addEventListener("submit", function (event) {
+//     if (position < screenPosition) {
 
-    event.preventDefault();
+//         counters.forEach(counter => {
 
-    alert(
-        "Message system is ready! এখন এটাকে backend-এর সাথে connect করতে হবে."
-    );
+//             const target =
+//                 +counter.dataset.target;
 
-});
+//             let count = 0;
+
+//             const speed =
+//                 Math.ceil(target / 50);
+
+
+//             const updateCounter = () => {
+
+//                 if (count < target) {
+
+//                     count += speed;
+
+//                     if (count > target) {
+//                         count = target;
+//                     }
+
+//                     counter.innerText = count + "+";
+
+//                     setTimeout(
+//                         updateCounter,
+//                         40
+//                     );
+
+//                 }
+
+//             };
+
+//             updateCounter();
+
+//         });
+
+
+//         started = true;
+
+//     }
+
+// }
+
+
+// window.addEventListener(
+//     "scroll",
+//     startCounter
+// );
+
+
+// // ================= CONTACT FORM =================
+
+// const form =
+//     document.querySelector(".contact-form");
+
+
+// form.addEventListener("submit", function (event) {
+
+//     event.preventDefault();
+
+//     alert(
+//         "Message system is ready! এখন এটাকে backend-এর সাথে connect করতে হবে."
+//     );
+
+// });
