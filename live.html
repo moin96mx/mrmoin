@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Video Call | MR MOIN</title>
+  <link rel="icon" type="image/png" href="mr moin complet logo.png">
+  <link rel="stylesheet" href="live.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <!-- Jitsi Meet API -->
+  <script src="https://meet.jit.si/external_api.js"></script>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">
+      <img src="mr moin complet logo.png" alt="MR MOIN Logo" class="nav-logo-img">
+      MR <span>MOIN</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="live.html" class="active">LIVE ROOM</a></li>
+    </ul>
+  </nav>
+
+  <section class="page-header">
+    <p class="section-small-title"><i class="fa-solid fa-video" style="color: red;"></i> REAL-TIME INTERACTION</p>
+    <h1 class="section-title">Live Video Call & Conference Room</h1>
+    <p style="color: var(--text);">Connect directly with Mr. Moin for 1-on-1 mentorship or group video meetings.</p>
+  </section>
+
+  <section class="section">
+    <div class="live-container" id="jitsi-container"></div>
+  </section>
+
+  <script>
+    window.onload = () => {
+      const domain = "meet.jit.si";
+      const options = {
+        roomName: "MrMoin_Futuristic_Live_Conference_2026",
+        width: "100%",
+        height: 600,
+        parentNode: document.querySelector('#jitsi-container'),
+        userInfo: {
+          displayName: 'Guest User'
+        }
+      };
+      const api = new JitsiMeetExternalAPI(domain, options);
+    };
+  </script>
+
+  <footer>
+    <div class="logo">
+      <img src="mr moin complet logo.png" alt="MR MOIN Logo" class="footer-logo-img">
+      MR <span>MOIN</span>
+    </div>
+    <p>© 2026 MR MOIN. All rights reserved.</p>
+  </footer>
+
+</body>
+<script src="live.js"></script>
+</html>
