@@ -11,8 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
             friendCards.forEach(card => {
                 const name = card.querySelector("h3").innerText.toLowerCase();
                 const role = card.querySelector(".role-tag").innerText.toLowerCase();
+                const bio = card.querySelector(".friend-bio").innerText.toLowerCase();
 
-                if (name.includes(query) || role.includes(query)) {
+                if (name.includes(query) || role.includes(query) || bio.includes(query)) {
                     card.style.display = "block";
                 } else {
                     card.style.display = "none";
@@ -51,13 +52,19 @@ document.addEventListener("DOMContentLoaded", () => {
             const card = btn.closest(".friend-card");
 
             const name = card.querySelector("h3").innerText;
-            const role = card.querySelector(".role-tag").innerText;
+            const roleElement = card.querySelector(".role-tag");
+            const roleText = roleElement.innerText;
+            const roleClass = roleElement.className;
             const bio = card.querySelector(".friend-bio").innerText;
             const imgSrc = card.querySelector("img").src;
 
             if (modal) {
                 modal.querySelector(".modal-name").innerText = name;
-                modal.querySelector(".modal-role").innerText = role;
+                
+                const modalRole = modal.querySelector(".modal-role");
+                modalRole.innerText = roleText;
+                modalRole.className = roleClass + " modal-role";
+                
                 modal.querySelector(".modal-bio").innerText = bio;
                 modal.querySelector(".modal-img").src = imgSrc;
 
@@ -77,4 +84,14 @@ document.addEventListener("DOMContentLoaded", () => {
             modal.classList.remove("active");
         }
     });
+
+    // MOBILE MENU TOGGLE
+    const mobileToggle = document.getElementById("mobileToggle");
+    const navLinks = document.getElementById("navLinks");
+
+    if (mobileToggle && navLinks) {
+        mobileToggle.addEventListener("click", () => {
+            navLinks.classList.toggle("active");
+        });
+    }
 });
