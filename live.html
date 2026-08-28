@@ -45,10 +45,53 @@
           <p><span class="live-status-dot"></span> Active Now • Direct Mentorship & Support</p>
         </div>
       </div>
+      <!-- ADMIN TOGGLE BUTTON -->
+      <button id="adminModeBtn" class="admin-btn"><i class="fa-solid fa-user-shield"></i> Host / Admin Access</button>
     </div>
 
-    <div class="video-container-card">
-      <div id="jitsi-container"></div>
+    <!-- MAIN GRID CONTAINER -->
+    <div class="live-main-container">
+      <!-- VIDEO CONTAINER -->
+      <div class="video-container-card">
+        <div id="jitsi-container"></div>
+      </div>
+
+      <!-- SIDE CHAT CONTAINER -->
+      <div class="chat-container-card">
+        <div class="chat-header">
+          <i class="fa-solid fa-comments"></i> Live Community Chat
+        </div>
+        <div id="chatMessages" class="chat-messages"></div>
+        <div class="chat-input-area">
+          <input type="text" id="chatInput" placeholder="Type a message..." />
+          <button id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q&A AND SUPPORT FORM SECTION -->
+    <div class="support-section">
+      <h2><i class="fa-solid fa-circle-question" style="color: var(--gold);"></i> Ask a Question / Pre-Session Support</h2>
+      <p style="color: var(--text); font-size: 13px; margin-bottom: 15px;">লাইভ চলাকালীন বা আগে আপনার প্রশ্ন জমা দিন। অ্যাডমিন এটি রিভিউ করে উত্তর দেবেন।</p>
+      
+      <form id="qaForm" class="qa-form">
+        <div class="form-group">
+          <input type="text" id="qaName" placeholder="Your Name" required>
+          <input type="email" id="qaEmail" placeholder="Your Email" required>
+        </div>
+        <div class="form-group">
+          <textarea id="qaQuestion" rows="3" placeholder="Write your question or topic here..." required></textarea>
+        </div>
+        <button type="submit" class="submit-btn"><i class="fa-solid fa-paper-plane"></i> Submit Question</button>
+      </form>
+
+      <!-- QUESTIONS DISPLAY LIST -->
+      <div class="submitted-questions">
+        <h3><i class="fa-solid fa-list-check"></i> Submitted Questions</h3>
+        <div id="questionsList" class="questions-list">
+          <p style="font-size: 12px; color: var(--text);">No questions submitted yet.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -61,30 +104,7 @@
     <p>© 2026 MR MOIN. All rights reserved.</p>
   </footer>
 
-  <script>
-    window.onload = () => {
-      const domain = 'meet.jit.si';
-      const options = {
-        roomName: 'MrMoin_Live_Conference_Room_2026',
-        width: '100%',
-        height: '100%',
-        parentNode: document.querySelector('#jitsi-container'),
-        userInfo: {
-          displayName: 'Guest User'
-        },
-        configOverwrite: {
-          prejoinPageEnabled: false,
-          disableDeepLinking: true,
-          enableWelcomePage: false
-        },
-        interfaceConfigOverwrite: {
-          SHOW_JITSI_WATERMARK: false,
-          SHOW_WATERMARK_FOR_GUESTS: false,
-          MOBILE_APP_PROMO: false
-        }
-      };
-      const api = new JitsiMeetExternalAPI(domain, options);
-    };
-  </script>
+  <!-- CUSTOM LIVE & JITSI JS -->
+  <script src="live.js"></script>
 </body>
 </html>
