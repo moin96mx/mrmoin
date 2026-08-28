@@ -3,56 +3,215 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog | MR MOIN</title>
-  <link rel="icon" type="image/png" href="img\x2.png">
+  <title>Cyber Knowledge Terminal | MR MOIN</title>
+  <link rel="icon" type="image/png" href="img/x2.png">
   <link rel="stylesheet" href="blog.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
 
+  <!-- BACKGROUND CYBER MATRIX & GRID OVERLAY -->
+  <div class="cyber-grid-overlay"></div>
+  <div class="ambient-glow bg-glow-1"></div>
+  <div class="ambient-glow bg-glow-2"></div>
+
+  <!-- NAVBAR -->
   <nav class="navbar">
     <div class="logo">
-      <img src="img\x2.png" alt="MR MOIN Logo" class="nav-logo-img">
+      <img src="img/x2.png" alt="MR MOIN Logo" class="nav-logo-img">
       MR <span>MOIN</span>
     </div>
-    <ul class="nav-links">
+    <ul class="nav-links" id="navLinks">
       <li><a href="index.html">HOME</a></li>
-      <li><a href="blog.html" class="active">BLOG</a></li>
-      <li><a href="#">COURSES</a></li>
+      <li><a href="services.html">SERVICES</a></li>
+      <li><a href="Courses&AffiliateProgram.html">COURSES</a></li>
+      <li><a href="blog.html" class="active">CYBER BLOG</a></li>
     </ul>
+    <div class="mobile-toggle" id="mobileToggle">
+      <i class="fa-solid fa-bars"></i>
+    </div>
   </nav>
 
+  <!-- PAGE HEADER -->
   <section class="page-header">
-    <p class="section-small-title">KNOWLEDGE SHARING</p>
-    <h1 class="section-title">Mr Moin Blog & Tutorials</h1>
+    <div class="cyber-badge"><i class="fa-solid fa-terminal"></i> QUANTUM ARCHIVE v3.0</div>
+    <h1 class="section-title">Developer Blog & Cyber Security Logs</h1>
+    <p class="section-subtitle">Deep dive into Futuristic Web Dev, Embedded Systems, AI Engineering, and IoT Cybernetics.</p>
   </section>
 
+  <!-- MAIN SECTION -->
   <section class="section">
-    <div class="blog-grid">
-      <div class="blog-card">
-        <span class="badge">TUTORIAL</span>
-        <h3>Building Futuristic Dark UIs with Pure CSS</h3>
-        <p style="color: var(--text); font-size: 13px; margin: 15px 0;">Learn how to create glowing neon effects, glassmorphism, and responsive layouts.</p>
-        <a href="#" style="color: var(--purple); text-decoration: none; font-size: 12px; font-weight: bold;">READ MORE →</a>
+    <!-- CONTROLS: SEARCH & CATEGORY FILTERS -->
+    <div class="blog-controls">
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="searchBlog" placeholder="Search archive by keyword, tag, or topic...">
+      </div>
+      <div class="blog-filter-btns">
+        <button class="b-filter-btn active" data-filter="all">ALL LOGS</button>
+        <button class="b-filter-btn" data-filter="web">WEB DEV</button>
+        <button class="b-filter-btn" data-filter="iot">HARDWARE & IoT</button>
+        <button class="b-filter-btn" data-filter="ai">AI & QUANTUM</button>
+        <button class="b-filter-btn" data-filter="cyber">CYBER SECURITY</button>
+      </div>
+    </div>
+
+    <!-- FEATURED HERO ARTICLE CARD -->
+    <div class="featured-blog-card" id="featuredArticle">
+      <div class="featured-badge"><i class="fa-solid fa-star"></i> FEATURED PROTOCOL</div>
+      <div class="featured-content">
+        <div class="blog-meta">
+          <span><i class="fa-solid fa-calendar-days"></i> AUG 28, 2026</span>
+          <span><i class="fa-solid fa-clock"></i> 8 MIN READ</span>
+          <span><i class="fa-solid fa-user-astronaut"></i> MR MOIN</span>
+        </div>
+        <h2>Building Autonomous Neural Interfaces with JavaScript & ESP32</h2>
+        <p>Explore how modern WebSockets, Node.js, and low-latency microcontrollers can be combined to stream live biometric signals directly to web-based HUD dashboards in real time.</p>
+        <button class="cyber-read-btn" onclick="openBlogModal('Building Autonomous Neural Interfaces with JavaScript & ESP32', 'Explore how modern WebSockets, Node.js, and low-latency microcontrollers can be combined to stream live biometric signals directly to web-based HUD dashboards in real time.\n\nIn this multi-part tutorial, we dismantle standard REST polling and implement zero-latency Binary WebSockets over TLS. You will build a real-time sensor array using ESP32-S3, stream fast Fourier telemetry to a WebGL browser client, and render glowing holographic canvas meters.', 'Hardware & IoT', 'AUG 28, 2026')">
+          INITIALIZE READING <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- ARTICLES GRID (EXPANDED CONTENT) -->
+    <div class="blog-grid" id="blogGrid">
+
+      <!-- Log 1: Web Dev -->
+      <div class="blog-card" data-category="web">
+        <div class="card-glow-border"></div>
+        <div class="blog-thumb">
+          <span class="blog-category-tag">WEB DEV</span>
+          <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop" alt="UI Design">
+        </div>
+        <div class="blog-content">
+          <div class="blog-meta">
+            <span><i class="fa-solid fa-calendar"></i> AUG 20, 2026</span>
+            <span><i class="fa-solid fa-clock"></i> 5 MIN</span>
+          </div>
+          <h3>Futuristic Dark UIs with Pure CSS & Glassmorphism</h3>
+          <p class="blog-excerpt">Master ultra-modern glowing neon borders, holographic glass filters, CSS custom properties, and 60fps animations without heavy frameworks.</p>
+          <button class="read-more-btn">DECRYPT LOG <i class="fa-solid fa-angles-right"></i></button>
+        </div>
       </div>
 
-      <div class="blog-card">
-        <span class="badge">HARDWARE & IoT</span>
-        <h3>ESP32 Home Automation Guide</h3>
-        <p style="color: var(--text); font-size: 13px; margin: 15px 0;">How to control lights and appliances using relay modules and web interfaces.</p>
-        <a href="#" style="color: var(--blue); text-decoration: none; font-size: 12px; font-weight: bold;">READ MORE →</a>
+      <!-- Log 2: Hardware & IoT -->
+      <div class="blog-card" data-category="iot">
+        <div class="card-glow-border"></div>
+        <div class="blog-thumb">
+          <span class="blog-category-tag">HARDWARE & IoT</span>
+          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop" alt="ESP32 IoT">
+        </div>
+        <div class="blog-content">
+          <div class="blog-meta">
+            <span><i class="fa-solid fa-calendar"></i> AUG 15, 2026</span>
+            <span><i class="fa-solid fa-clock"></i> 6 MIN</span>
+          </div>
+          <h3>ESP32 Smart Automation & Relay Mesh Protocols</h3>
+          <p class="blog-excerpt">Comprehensive guide to building local encrypted relays, MQTT communication, and smart home automation web servers with ESP32-WROOM.</p>
+          <button class="read-more-btn">DECRYPT LOG <i class="fa-solid fa-angles-right"></i></button>
+        </div>
       </div>
+
+      <!-- Log 3: AI & Quantum -->
+      <div class="blog-card" data-category="ai">
+        <div class="card-glow-border"></div>
+        <div class="blog-thumb">
+          <span class="blog-category-tag">AI & QUANTUM</span>
+          <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop" alt="AI Neural">
+        </div>
+        <div class="blog-content">
+          <div class="blog-meta">
+            <span><i class="fa-solid fa-calendar"></i> AUG 10, 2026</span>
+            <span><i class="fa-solid fa-clock"></i> 7 MIN</span>
+          </div>
+          <h3>Integrating On-Device LLM Models with WebAssembly</h3>
+          <p class="blog-excerpt">Run lightweight AI models locally inside client browsers using WebAssembly and WebGPU for zero-latency private inference.</p>
+          <button class="read-more-btn">DECRYPT LOG <i class="fa-solid fa-angles-right"></i></button>
+        </div>
+      </div>
+
+      <!-- Log 4: Cyber Security -->
+      <div class="blog-card" data-category="cyber">
+        <div class="card-glow-border"></div>
+        <div class="blog-thumb">
+          <span class="blog-category-tag">CYBER SECURITY</span>
+          <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=800&auto=format&fit=crop" alt="Security Shield">
+        </div>
+        <div class="blog-content">
+          <div class="blog-meta">
+            <span><i class="fa-solid fa-calendar"></i> AUG 02, 2026</span>
+            <span><i class="fa-solid fa-clock"></i> 4 MIN</span>
+          </div>
+          <h3>Securing REST APIs Against Quantum Decryption Attacks</h3>
+          <p class="blog-excerpt">Practical strategies for upgrading Node.js JWT tokens, SSL endpoints, and hashing algorithms to post-quantum cryptographic standards.</p>
+          <button class="read-more-btn">DECRYPT LOG <i class="fa-solid fa-angles-right"></i></button>
+        </div>
+      </div>
+
+      <!-- Log 5: Web Dev -->
+      <div class="blog-card" data-category="web">
+        <div class="card-glow-border"></div>
+        <div class="blog-thumb">
+          <span class="blog-category-tag">WEB DEV</span>
+          <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop" alt="Code">
+        </div>
+        <div class="blog-content">
+          <div class="blog-meta">
+            <span><i class="fa-solid fa-calendar"></i> JUL 28, 2026</span>
+            <span><i class="fa-solid fa-clock"></i> 6 MIN</span>
+          </div>
+          <h3>Node.js Microservices Architecture & Redis Caching</h3>
+          <p class="blog-excerpt">How to scale high-throughput server backends using Node.js clusters, Redis caching layers, and Express microservices.</p>
+          <button class="read-more-btn">DECRYPT LOG <i class="fa-solid fa-angles-right"></i></button>
+        </div>
+      </div>
+
+      <!-- Log 6: Hardware & IoT -->
+      <div class="blog-card" data-category="iot">
+        <div class="card-glow-border"></div>
+        <div class="blog-thumb">
+          <span class="blog-category-tag">HARDWARE & IoT</span>
+          <img src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?q=80&w=800&auto=format&fit=crop" alt="Circuit">
+        </div>
+        <div class="blog-content">
+          <div class="blog-meta">
+            <span><i class="fa-solid fa-calendar"></i> JUL 20, 2026</span>
+            <span><i class="fa-solid fa-clock"></i> 5 MIN</span>
+          </div>
+          <h3>Designing Custom PCB Circuits for IoT Devices</h3>
+          <p class="blog-excerpt">From schematic diagrams in EasyEDA to manufacturing final PCBs: step-by-step custom circuit hardware engineering.</p>
+          <button class="read-more-btn">DECRYPT LOG <i class="fa-solid fa-angles-right"></i></button>
+        </div>
+      </div>
+
     </div>
   </section>
 
+  <!-- CYBER MODAL POPUP FOR FULL LOG READ -->
+  <div class="modal" id="blogModal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div class="modal-header">
+        <span class="cyber-badge" id="modalCategory">WEB DEV</span>
+        <span style="font-size: 12px; color: var(--cyan);" id="modalDate">AUG 20, 2026</span>
+      </div>
+      <h2 class="modal-blog-title" style="color: var(--gold); margin: 15px 0 10px; font-family: 'Orbitron'; font-size: 22px;">Article Title</h2>
+      <img src="" alt="Blog Cover" class="modal-blog-img" style="width: 100%; height: 220px; object-fit: cover; border-radius: 8px; border: 1px solid var(--cyan); margin-bottom: 20px;">
+      <div class="modal-blog-body" style="color: var(--text); font-size: 15px; line-height: 1.8; white-space: pre-line;">
+        Article body text will load here dynamically...
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
   <footer>
     <div class="logo">
-      <img src="img\x2.png" alt="MR MOIN Logo" class="footer-logo-img">
+      <img src="img/x2.png" alt="MR MOIN Logo" class="footer-logo-img">
       MR <span>MOIN</span>
     </div>
-    <p>© 2026 MR MOIN. All rights reserved.</p>
+    <p>© 2026 MR MOIN. Quantum Intelligence Ecosystem. All rights reserved.</p>
   </footer>
 
+  <script src="blog.js"></script>
 </body>
-<script src="blog.js"></script>
 </html>
