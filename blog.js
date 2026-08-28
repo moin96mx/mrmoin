@@ -11,8 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
             blogCards.forEach(card => {
                 const title = card.querySelector("h3").innerText.toLowerCase();
                 const excerpt = card.querySelector(".blog-excerpt").innerText.toLowerCase();
+                const category = card.querySelector(".blog-category-tag").innerText.toLowerCase();
 
-                if (title.includes(query) || excerpt.includes(query)) {
+                if (title.includes(query) || excerpt.includes(query) || category.includes(query)) {
                     card.style.display = "flex";
                 } else {
                     card.style.display = "none";
@@ -41,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // READ MORE MODAL LOGIC
+    // READ MORE MODAL LOGIC FOR CARDS
     const modal = document.getElementById("blogModal");
     const closeModal = document.querySelector(".close-modal");
 
@@ -52,19 +53,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const title = card.querySelector("h3").innerText;
             const excerpt = card.querySelector(".blog-excerpt").innerText;
+            const category = card.querySelector(".blog-category-tag").innerText;
+            const date = card.querySelector(".blog-meta span").innerText;
             const imgSrc = card.querySelector(".blog-thumb img") ? card.querySelector(".blog-thumb img").src : "";
 
-            if (modal) {
-                const modalTitle = modal.querySelector(".modal-blog-title");
-                const modalBody = modal.querySelector(".modal-blog-body");
-                const modalImg = modal.querySelector(".modal-blog-img");
-
-                if (modalTitle) modalTitle.innerText = title;
-                if (modalBody) modalBody.innerText = excerpt;
-                if (modalImg && imgSrc) modalImg.src = imgSrc;
-
-                modal.classList.add("active");
-            }
+            openBlogModal(title, excerpt, category, date, imgSrc);
         });
     });
 
@@ -79,4 +72,42 @@ document.addEventListener("DOMContentLoaded", () => {
             modal.classList.remove("active");
         }
     });
+
+    // MOBILE MENU TOGGLE
+    const mobileToggle = document.getElementById("mobileToggle");
+    const navLinks = document.getElementById("navLinks");
+
+    if (mobileToggle && navLinks) {
+        mobileToggle.addEventListener("click", () => {
+            navLinks.classList.toggle("active");
+        });
+    }
 });
+
+// GLOBAL OPEN MODAL FUNCTION
+function openBlogModal(title, content, category, date, imgSrc = "") {
+    const modal = document.getElementById("blogModal");
+    if (!modal) return;
+
+    const modalTitle = modal.querySelector(".modal-blog-title");
+    const modalBody = modal.querySelector(".modal-blog-body");
+    const modalImg = modal.querySelector(".modal-blog-img");
+    const modalCat = document.getElementById("modalCategory");
+    const modalDate = document.getElementById("modalDate");
+
+    if (modalTitle) modalTitle.innerText = title;
+    if (modalBody) modalBody.innerText = content;
+    if (modalCat) modalCat.innerText = category;
+    if (modalDate) modalDate.innerText = date;
+
+    if (modalImg) {
+        if (imgSrc) {
+            modalImg.src = imgSrc;
+            modalImg.style.display = "block";
+        } else {
+            modalImg.style.display = "none";
+        }
+    }
+
+    modal.classList.add("active");
+}
