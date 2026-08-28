@@ -3,75 +3,204 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Friends | MR MOIN</title>
-  <link rel="icon" type="image/png" href="img\x2.png">
+  <title>Cyber Network & Squad | MR MOIN</title>
+  <link rel="icon" type="image/png" href="img/x2.png">
   <link rel="stylesheet" href="friends.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
 
+  <!-- BACKGROUND CYBER MATRIX GRID & GLOWS -->
+  <div class="cyber-grid-overlay"></div>
+  <div class="ambient-glow bg-glow-1"></div>
+  <div class="ambient-glow bg-glow-2"></div>
+
+  <!-- NAVBAR -->
   <nav class="navbar">
     <div class="logo">
-      <img src="img\x2.png" alt="MR MOIN Logo" class="nav-logo-img">
+      <img src="img/x2.png" alt="MR MOIN Logo" class="nav-logo-img">
       MR <span>MOIN</span>
     </div>
-    <ul class="nav-links">
+    <ul class="nav-links" id="navLinks">
       <li><a href="index.html">HOME</a></li>
-      <li><a href="friends.html" class="active">FRIENDS</a></li>
-      <li><a href="#">COURSES</a></li>
+      <li><a href="friends.html" class="active">SQUAD</a></li>
+      <li><a href="Courses&AffiliateProgram.html">COURSES</a></li>
       <li><a href="services.html">SERVICES</a></li>
-      <li><a href="blog.html">BLOG</a></li>
+      <li><a href="blog.html">CYBER BLOG</a></li>
     </ul>
+    <div class="mobile-toggle" id="mobileToggle">
+      <i class="fa-solid fa-bars"></i>
+    </div>
   </nav>
 
+  <!-- PAGE HEADER -->
   <section class="page-header">
-    <p class="section-small-title">MY INNER CIRCLE</p>
-    <h1 class="section-title">Mr Moin Friends & Network</h1>
-    <p style="color: var(--text);">Meet the talented individuals who inspire and collaborate with Mr. Moin.</p>
+    <div class="cyber-badge"><i class="fa-solid fa-network-wired"></i> ALLIED NETWORK v4.0</div>
+    <h1 class="section-title">Inner Circle & Collaborators</h1>
+    <p class="section-subtitle">The visionary engineers, creators, and innovators shaping the tech ecosystem with Mr. Moin.</p>
   </section>
 
+  <!-- MAIN SECTION -->
   <section class="section">
-    <div class="friends-grid">
-      <!-- Friend 1 -->
-      <div class="friend-card">
+    <!-- CONTROLS: SEARCH & CATEGORY FILTERS -->
+    <div class="friends-controls">
+      <div class="search-box">
+        <i class="fa-solid fa-user-astronaut"></i>
+        <input type="text" id="searchFriend" placeholder="Search collaborator by name, role, or tech stack...">
+      </div>
+      <div class="filter-buttons">
+        <button class="filter-btn active" data-filter="all">ALL MEMBERS</button>
+        <button class="filter-btn" data-filter="developer">DEVELOPERS</button>
+        <button class="filter-btn" data-filter="designer">DESIGNERS</button>
+        <button class="filter-btn" data-filter="security">SECURITY & AI</button>
+      </div>
+    </div>
+
+    <!-- FRIENDS GRID -->
+    <div class="friends-grid" id="friendsGrid">
+
+      <!-- Member 1 -->
+      <div class="friend-card" data-category="developer">
+        <div class="card-status-dot online"></div>
         <div class="friend-img-box">
-          <img src="img\polashxxx.png" alt="Polash Ahmed">
+          <img src="img/polashxxx.png" alt="Polash Ahmed">
         </div>
-        <h3 style="text-align: center; margin-bottom: 5px;">Polash Ahmed</h3>
-        <p style="text-align: center; color: var(--purple); font-size: 12px; margin-bottom: 15px;">Frontend Specialist</p>
-        <p style="color: var(--text); font-size: 13px; line-height: 1.6;">Passionate about UI designs, CSS animations, and modern web architectures.</p>
+        <h3>Polash Ahmed</h3>
+        <span class="role-tag role-purple">Frontend Architect</span>
+        <p class="friend-bio">Passionate about cutting-edge micro-interactions, CSS shaders, high-performance UIs, and modern web frameworks.</p>
+        <div class="social-mini-links">
+          <a href="#"><i class="fa-brands fa-github"></i></a>
+          <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="#"><i class="fa-solid fa-globe"></i></a>
+        </div>
+        <button class="view-profile-btn">VIEW INTERFACE <i class="fa-solid fa-angle-right"></i></button>
       </div>
 
-      <!-- Friend 2 -->
-      <div class="friend-card">
+      <!-- Member 2 -->
+      <div class="friend-card" data-category="developer">
+        <div class="card-status-dot online"></div>
         <div class="friend-img-box">
-          <img src="img\alifxx.png" alt="Alif Kawser">
+          <img src="img/alifxx.png" alt="Alif Kawser">
         </div>
-        <h3 style="text-align: center; margin-bottom: 5px;">Alif Kawser</h3>
-        <p style="text-align: center; color: var(--blue); font-size: 12px; margin-bottom: 15px;">Backend & Node.js Engineer</p>
-        <p style="color: var(--text); font-size: 13px; line-height: 1.6;">Expert in server-side logic, API integrations, and database design.</p>
+        <h3>Alif Kawser</h3>
+        <span class="role-tag role-cyan">Backend & Cloud Engineer</span>
+        <p class="friend-bio">Specializing in distributed Node.js microservices, low-latency API architecture, database optimization, and Docker systems.</p>
+        <div class="social-mini-links">
+          <a href="#"><i class="fa-brands fa-github"></i></a>
+          <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="#"><i class="fa-solid fa-code"></i></a>
+        </div>
+        <button class="view-profile-btn">VIEW INTERFACE <i class="fa-solid fa-angle-right"></i></button>
       </div>
 
-      <!-- Friend 3 -->
-      <div class="friend-card">
+      <!-- Member 3 -->
+      <div class="friend-card" data-category="security">
+        <div class="card-status-dot online"></div>
         <div class="friend-img-box">
-          <img src="img\vaixx.png" alt="Hr Siam">
+          <img src="img/vaixx.png" alt="Hr Siam">
         </div>
-        <h3 style="text-align: center; margin-bottom: 5px;">Hr Siam</h3>
-        <p style="text-align: center; color: var(--green); font-size: 12px; margin-bottom: 15px;">IoT & Embedded Developer</p>
-        <p style="color: var(--text); font-size: 13px; line-height: 1.6;">Specialist in ESP32 microcontroller setups, robotics, and hardware coding.</p>
+        <h3>Hr Siam</h3>
+        <span class="role-tag role-green">IoT & Hardware Specialist</span>
+        <p class="friend-bio">Expert in ESP32/Raspberry Pi microcontrollers, custom PCB design, robotics telemetry, and physical hardware automation.</p>
+        <div class="social-mini-links">
+          <a href="#"><i class="fa-brands fa-github"></i></a>
+          <a href="#"><i class="fa-solid fa-microchip"></i></a>
+          <a href="#"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+        <button class="view-profile-btn">VIEW INTERFACE <i class="fa-solid fa-angle-right"></i></button>
       </div>
+
+      <!-- Member 4 -->
+      <div class="friend-card" data-category="designer">
+        <div class="card-status-dot offline"></div>
+        <div class="friend-img-box">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop" alt="Sarah Connor">
+        </div>
+        <h3>Sarah Connor</h3>
+        <span class="role-tag role-gold">Cyberpunk UI/UX Lead</span>
+        <p class="friend-bio">Crafting immersive HUD dashboards, 3D WebGL interfaces, vector aesthetics, and futuristic visual experiences.</p>
+        <div class="social-mini-links">
+          <a href="#"><i class="fa-brands fa-dribbble"></i></a>
+          <a href="#"><i class="fa-brands fa-behance"></i></a>
+          <a href="#"><i class="fa-brands fa-figma"></i></a>
+        </div>
+        <button class="view-profile-btn">VIEW INTERFACE <i class="fa-solid fa-angle-right"></i></button>
+      </div>
+
+      <!-- Member 5 -->
+      <div class="friend-card" data-category="security">
+        <div class="card-status-dot online"></div>
+        <div class="friend-img-box">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop" alt="Tanvir Hasan">
+        </div>
+        <h3>Tanvir Hasan</h3>
+        <span class="role-tag role-magenta">SecOps & Ethical Hacker</span>
+        <p class="friend-bio">Penetration tester, network security researcher, and specialist in post-quantum data encryption protocols.</p>
+        <div class="social-mini-links">
+          <a href="#"><i class="fa-solid fa-shield-halved"></i></a>
+          <a href="#"><i class="fa-brands fa-github"></i></a>
+          <a href="#"><i class="fa-brands fa-twitter"></i></a>
+        </div>
+        <button class="view-profile-btn">VIEW INTERFACE <i class="fa-solid fa-angle-right"></i></button>
+      </div>
+
+      <!-- Member 6 -->
+      <div class="friend-card" data-category="developer">
+        <div class="card-status-dot online"></div>
+        <div class="friend-img-box">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop" alt="Mahmudul Hasan">
+        </div>
+        <h3>Mahmudul Hasan</h3>
+        <span class="role-tag role-cyan">AI & Machine Learning Lead</span>
+        <p class="friend-bio">Integrating WebAssembly LLMs, neural networks, computer vision, and real-time prediction pipelines into web applications.</p>
+        <div class="social-mini-links">
+          <a href="#"><i class="fa-brands fa-python"></i></a>
+          <a href="#"><i class="fa-brands fa-github"></i></a>
+          <a href="#"><i class="fa-solid fa-brain"></i></a>
+        </div>
+        <button class="view-profile-btn">VIEW INTERFACE <i class="fa-solid fa-angle-right"></i></button>
+      </div>
+
     </div>
   </section>
 
+  <!-- HOLOGRAPHIC MODAL POPUP FOR PROFILE DETAILS -->
+  <div class="modal" id="friendModal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div class="modal-body-wrapper">
+        <div class="modal-img-container">
+          <img src="" alt="Profile Photo" class="modal-img">
+        </div>
+        <div class="modal-info">
+          <div class="cyber-badge" style="margin-bottom: 5px;">VERIFIED MEMBER</div>
+          <h2 class="modal-name">Member Name</h2>
+          <span class="role-tag modal-role" style="display: inline-block; margin-bottom: 15px;">Role Title</span>
+          <p class="modal-bio">Bio description will load here dynamically...</p>
+          <div class="modal-stats">
+            <div class="stat-box">
+              <span class="stat-num">99.8%</span>
+              <span class="stat-label">SYNC RATIO</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-num">45+</span>
+              <span class="stat-label">PROJECTS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
   <footer>
     <div class="logo">
-      <img src="img\x2.png" alt="MR MOIN Logo" class="footer-logo-img">
+      <img src="img/x2.png" alt="MR MOIN Logo" class="footer-logo-img">
       MR <span>MOIN</span>
     </div>
-    <p>© 2026 MR MOIN. All rights reserved.</p>
+    <p>© 2026 MR MOIN. Autonomous Cyber Intelligence Network. All rights reserved.</p>
   </footer>
 
+  <script src="friends.js"></script>
 </body>
-<script src="friends.js"></script>
 </html>
