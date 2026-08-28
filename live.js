@@ -1,14 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
     let api = null;
+    let currentRoom = 'MrMoin_Live_Conference_Room_2026';
 
-    // 1. INITIALIZE JITSI MEET
-    const initJitsi = (isAdmin = false) => {
+    const initJitsi = (isAdmin = false, roomName = currentRoom) => {
         const domain = 'meet.jit.si';
         const container = document.querySelector('#jitsi-container');
-        container.innerHTML = ''; // Clear container
+        container.innerHTML = '';
 
         const options = {
-            roomName: 'MrMoin_Live_Conference_Room_2026',
+            roomName: roomName,
             width: '100%',
             height: '100%',
             parentNode: container,
@@ -19,91 +19,108 @@ document.addEventListener("DOMContentLoaded", () => {
                 prejoinPageEnabled: false,
                 disableDeepLinking: true,
                 enableWelcomePage: false,
-                // Admin settings
-                startWithAudioMuted: !isAdmin,
-                disableRemoteMute: !isAdmin // Only admin can remote mute
+                startWithAudioMuted: false,
+                disableRemoteMute: !isAdmin
             },
             interfaceConfigOverwrite: {
                 SHOW_JITSI_WATERMARK: false,
                 SHOW_WATERMARK_FOR_GUESTS: false,
                 MOBILE_APP_PROMO: false,
-                // Toolbar options based on admin mode
-                TOOLBAR_BUTTONS: isAdmin ? [
-                    'microphone', 'camera', 'desktop', 'embedmeeting', 'fullscreen',
-                    'fodeviceselection', 'hangup', 'chat', 'recording',
-                    'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
-                    'videoquality', 'filmstrip', 'participants-pane', 'tileview', 'mute-everyone', 'security'
-                ] : [
-                    'microphone', 'camera', 'fullscreen', 'hangup', 'raisehand', 'tileview'
+                TOOLBAR_BUTTONS: [
+                    'microphone', 'camera', 'chat', 'raisehand', 'tileview', 'fullscreen', 'hangup',
+                    ...(isAdmin ? [
+                        'desktop', 
+                        'mute-everyone', 
+                        'security', 
+                        'recording', 
+                        'settings', 
+                        'select-background', 
+                        'fodeviceselection'
+                    ] : [])
                 ]
             }
         };
         api = new JitsiMeetExternalAPI(domain, options);
     };
 
-    initJitsi(false); // Start as normal user
+    initJitsi(false);
 
-    // 2. ADMIN ACCESS TOGGLE
+    // ADMIN TOGGLE & SETTINGS PANEL
     const adminModeBtn = document.getElementById("adminModeBtn");
-    adminModeBtn.addEventListener("click", () => {
-        const password = prompt("Enter Admin Password:");
-        if (password === "2004131") { // Admin Password
-            alert("Admin Access Granted! Loading Host Controls...");
-            initJitsi(true);
-            adminModeBtn.style.background = "#00ff88";
-            adminModeBtn.style.color = "#000";
-            adminModeBtn.innerHTML = `<i class="fa-solid fa-user-check"></i> Admin Active`;
-        } else if (password !== null) {
-            alert("Wrong Password!");
-        }
-    });
+    const adminSettingsPanel = document.getElementById("adminSettingsPanel");
+    const changeRoomBtn = document.getElementById("changeRoomBtn");
+    const customRoomInput = document.getElementById("customRoomInput");
+    const toggleAudioBtn = document.getElementById("toggleAudioBtn");
+    const reloadMeetingBtn = document.getElementById("reloadMeetingBtn");
 
-    // 3. SIDE CHAT FUNCTIONALITY
-    const chatMessages = document.getElementById("chatMessages");
-    const chatInput = document.getElementById("chatInput");
-    const sendBtn = document.getElementById("sendBtn");
-
-    function addMessage(user, text) {
-        if (!text.trim()) return;
-        const msgDiv = document.createElement("div");
-        msgDiv.classList.add("chat-item");
-        msgDiv.innerHTML = `<span class="chat-user">${user}:</span><span>${text}</span>`;
-        chatMessages.appendChild(msgDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    if (sendBtn && chatInput) {
-        sendBtn.addEventListener("click", () => {
-            addMessage("You", chatInput.value);
-            chatInput.value = "";
-        });
-        chatInput.addEventListener("keypress", (e) => {
-            if (e.key === "Enter") {
-                addMessage("You", chatInput.value);
-                chatInput.value = "";
+    if (adminModeBtn) {
+        adminModeBtn.addEventListener("click", () => {
+            const password = prompt("Enter Admin Password:");
+            if (password === "moin123") {
+                initJitsi(true);
+                adminModeBtn.style.background = "#00ff88";
+                adminModeBtn.style.color = "#000";
+                adminModeBtn.innerHTML = `<i class="fa-solid fa-user-check"></i> Admin Active`;
+                
+                // Show Settings Panel
+                if (adminSettingsPanel) {
+                    adminSettingsPanel.style.display = "grid";
+                }
             }
         });
     }
 
-    // 4. Q&A / SUPPORT FORM FUNCTIONALITY
+    // ADMIN SETTINGS ACTIONS
+    if (changeRoomBtn && customRoomInput) {
+        changeRoomBtn.addEventListener("click", () => {
+            const newRoom = customRoomInput.value.trim();
+            if (newRoom) {
+                currentRoom = newRoom.replace(/\s+/g, '_');
+                initJitsi(true, currentRoom);
+                customRoomInput.value = "";
+            }
+        });
+    }
+
+    if (toggleAudioBtn) {
+        toggleAudioBtn.addEventListener("click", () => {
+            if (api) {
+                api.executeCommand('toggleAudio');
+            }
+        });
+    }
+
+    if (reloadMeetingBtn) {
+        reloadMeetingBtn.addEventListener("click", () => {
+            if (api) {
+                initJitsi(true, currentRoom);
+            }
+        });
+    }
+
+    // Q&A FORM
     const qaForm = document.getElementById("qaForm");
     const questionsList = document.getElementById("questionsList");
 
-    qaForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const name = document.getElementById("qaName").value;
-        const question = document.getElementById("qaQuestion").value;
+    if (qaForm) {
+        qaForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const name = document.getElementById("qaName").value;
+            const email = document.getElementById("qaEmail").value.trim();
+            const question = document.getElementById("qaQuestion").value;
 
-        if (questionsList.children[0] && questionsList.children[0].tagName === "P") {
-            questionsList.innerHTML = ""; // Remove "No questions" text
-        }
+            if (questionsList.children[0] && questionsList.children[0].tagName === "P") {
+                questionsList.innerHTML = "";
+            }
 
-        const qCard = document.createElement("div");
-        qCard.classList.add("q-card");
-        qCard.innerHTML = `<strong>${name}</strong><p>${question}</p>`;
+            const qCard = document.createElement("div");
+            qCard.classList.add("q-card");
+            
+            const emailText = email ? ` <span style="color: var(--text); font-weight: normal; font-size: 11px;">(${email})</span>` : '';
+            qCard.innerHTML = `<strong>${name}${emailText}</strong><p>${question}</p>`;
 
-        questionsList.prepend(qCard); // Add new question at top
-        qaForm.reset();
-        alert("Question Submitted Successfully!");
-    });
+            questionsList.prepend(qCard);
+            qaForm.reset();
+        });
+    }
 });
