@@ -7,7 +7,6 @@
   <link rel="icon" type="image/png" href="img/x2.png">
   <link rel="stylesheet" href="live.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <!-- Jitsi API Script -->
   <script src="https://meet.jit.si/external_api.js"></script>
 </head>
 <body>
@@ -45,27 +44,28 @@
           <p><span class="live-status-dot"></span> Active Now • Direct Mentorship & Support</p>
         </div>
       </div>
-      <!-- ADMIN TOGGLE BUTTON -->
       <button id="adminModeBtn" class="admin-btn"><i class="fa-solid fa-user-shield"></i> Host / Admin Access</button>
     </div>
 
-    <!-- MAIN GRID CONTAINER -->
-    <div class="live-main-container">
-      <!-- VIDEO CONTAINER -->
-      <div class="video-container-card">
-        <div id="jitsi-container"></div>
+    <!-- ADMIN SETTINGS PANEL (INITIAL HYDE) -->
+    <div id="adminSettingsPanel" style="display: none; background: #0c1222; border: 1px solid var(--gold); padding: 15px 20px; border-radius: 8px; margin-bottom: 15px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; align-items: center;">
+      <h4 style="color: var(--gold); grid-column: 1/-1; margin: 0; font-size: 14px;"><i class="fa-solid fa-gear"></i> Admin Settings Panel</h4>
+      
+      <div style="display: flex; gap: 8px;">
+        <input type="text" id="customRoomInput" placeholder="Change Room Name..." style="background: #050814; border: 1px solid var(--border); color: #fff; padding: 6px 10px; border-radius: 4px; font-size: 12px; width: 100%;">
+        <button id="changeRoomBtn" style="background: var(--purple); color: #fff; border: none; padding: 6px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">Change</button>
       </div>
 
-      <!-- SIDE CHAT CONTAINER -->
-      <div class="chat-container-card">
-        <div class="chat-header">
-          <i class="fa-solid fa-comments"></i> Live Community Chat
-        </div>
-        <div id="chatMessages" class="chat-messages"></div>
-        <div class="chat-input-area">
-          <input type="text" id="chatInput" placeholder="Type a message..." />
-          <button id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
-        </div>
+      <div style="display: flex; gap: 10px;">
+        <button id="toggleAudioBtn" style="background: #1d2740; color: #fff; border: 1px solid var(--border); padding: 6px 12px; border-radius: 4px; font-size: 12px; cursor: pointer; flex: 1;"><i class="fa-solid fa-microphone-slash"></i> Toggle Mute</button>
+        <button id="reloadMeetingBtn" style="background: #ff0055; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; font-size: 12px; cursor: pointer; flex: 1;"><i class="fa-solid fa-rotate"></i> Reset Stream</button>
+      </div>
+    </div>
+
+    <!-- MAIN VIDEO & REALTIME CHAT CONTAINER -->
+    <div class="live-main-container">
+      <div class="video-container-card">
+        <div id="jitsi-container"></div>
       </div>
     </div>
 
@@ -77,7 +77,7 @@
       <form id="qaForm" class="qa-form">
         <div class="form-group">
           <input type="text" id="qaName" placeholder="Your Name" required>
-          <input type="email" id="qaEmail" placeholder="Your Email" required>
+          <input type="email" id="qaEmail" placeholder="Your Email (Optional)">
         </div>
         <div class="form-group">
           <textarea id="qaQuestion" rows="3" placeholder="Write your question or topic here..." required></textarea>
@@ -85,7 +85,6 @@
         <button type="submit" class="submit-btn"><i class="fa-solid fa-paper-plane"></i> Submit Question</button>
       </form>
 
-      <!-- QUESTIONS DISPLAY LIST -->
       <div class="submitted-questions">
         <h3><i class="fa-solid fa-list-check"></i> Submitted Questions</h3>
         <div id="questionsList" class="questions-list">
@@ -104,7 +103,6 @@
     <p>© 2026 MR MOIN. All rights reserved.</p>
   </footer>
 
-  <!-- CUSTOM LIVE & JITSI JS -->
   <script src="live.js"></script>
 </body>
 </html>
