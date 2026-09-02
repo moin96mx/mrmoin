@@ -403,3 +403,25 @@ footer p { color: var(--text); font-size: 13px; }
     }
     .nav-links.active { display: flex; }
 }
+
+/* Card Feature List Styling */
+.card-feature-list {
+    list-style: none;
+    margin: 15px 0;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(0, 240, 255, 0.15);
+}
+
+.card-feature-list li {
+    font-size: 13px;
+    color: var(--text);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-feature-list li i {
+    color: var(--cyan);
+    font-size: 12px;
+}
