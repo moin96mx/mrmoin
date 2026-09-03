@@ -5,10 +5,8 @@
     --bg2: #0a0f20;
     --card: #0b1020;
     --border: #1d2740;
-
     --white: #ffffff;
     --text: #aeb7cc;
-
     --purple: #8b3dff;
     --blue: #00b7ff;
     --green: #00ff88;
@@ -23,6 +21,7 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 90px;
 }
 
 body {
@@ -32,32 +31,32 @@ body {
     overflow-x: hidden;
 }
 
-::-webkit-scrollbar {
-    width: 8px;
-}
-::-webkit-scrollbar-track {
-    background: #050814;
-}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #050814; }
 ::-webkit-scrollbar-thumb {
     background: var(--purple);
     border-radius: 20px;
 }
 
-/* NAVBAR LOGO */
+/* =========================
+   NAVBAR
+   ========================= */
 .navbar {
     width: 100%;
-    height: 75px;
+    min-height: 75px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 5%;
-    position: fixed;
+    padding: 12px 5%;
+    position: sticky;
     top: 0;
     left: 0;
     z-index: 1000;
-    background: rgba(5, 8, 20, 0.95);
-    backdrop-filter: blur(10px);
+    background: rgba(5, 8, 20, 0.96);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
+    box-shadow: 0 8px 35px rgba(0,0,0,.22);
 }
 
 .logo {
@@ -66,6 +65,7 @@ body {
     gap: 10px;
     font-size: 20px;
     font-weight: 800;
+    white-space: nowrap;
 }
 
 .nav-logo-img, .footer-logo-img {
@@ -74,11 +74,10 @@ body {
     border-radius: 50%;
     border: 2px solid var(--gold);
     box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+    flex-shrink: 0;
 }
 
-.logo span {
-    color: var(--purple);
-}
+.logo span { color: var(--purple); }
 
 .nav-links {
     display: flex;
@@ -93,10 +92,24 @@ body {
     font-size: 11px;
     font-weight: 600;
     transition: 0.3s;
+    position: relative;
 }
 
-.nav-links a:hover {
-    color: var(--purple);
+.nav-links a:hover { color: var(--purple); }
+
+.nav-links a:not(.live-nav-btn):not(.electrotech-nav-btn)::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 100%;
+    bottom: -7px;
+    height: 1px;
+    background: var(--gold);
+    transition: .3s ease;
+}
+
+.nav-links a:not(.live-nav-btn):not(.electrotech-nav-btn):hover::after {
+    right: 0;
 }
 
 .live-nav-btn {
@@ -122,12 +135,13 @@ body {
     color: white;
     font-size: 22px;
     cursor: pointer;
+    padding: 5px;
 }
 
 /* HERO */
 .hero {
     min-height: 100vh;
-    padding: 140px 10% 80px;
+    padding: 100px 10% 80px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -140,10 +154,7 @@ body {
     z-index: 2;
 }
 
-.hello {
-    color: var(--text);
-    font-size: 18px;
-}
+.hello { color: var(--text); font-size: 18px; }
 
 .hero h1 {
     font-size: 75px;
@@ -154,17 +165,12 @@ body {
 .hero h1 span {
     background: linear-gradient(90deg, var(--purple), var(--blue));
     -webkit-background-clip: text;
+    background-clip: text;
     color: transparent;
 }
 
-.hero h2 {
-    font-size: 26px;
-    line-height: 1.6;
-}
-
-.hero h2 span {
-    color: var(--blue);
-}
+.hero h2 { font-size: 26px; line-height: 1.6; }
+.hero h2 span { color: var(--blue); }
 
 .typing-text {
     margin: 20px 0 30px;
@@ -172,9 +178,7 @@ body {
     color: #cbd5e1;
 }
 
-.typing-text span {
-    color: var(--purple);
-}
+.typing-text span { color: var(--purple); }
 
 .hero-buttons {
     display: flex;
@@ -206,17 +210,14 @@ body {
     box-shadow: 0 0 35px rgba(139, 61, 255, 0.8);
 }
 
-.outline-btn {
-    color: white;
-    background: transparent;
-}
+.outline-btn { color: white; background: transparent; }
 
 .outline-btn:hover {
     background: var(--purple);
     box-shadow: 0 0 25px rgba(139, 61, 255, 0.6);
 }
 
-/* HERO IMAGE BRANDING */
+/* HERO IMAGE */
 .hero-image {
     width: 420px;
     height: 420px;
@@ -248,6 +249,7 @@ body {
 /* SECTION */
 .section {
     padding: 100px 10%;
+    scroll-margin-top: 90px;
 }
 
 .section-small-title {
@@ -296,10 +298,7 @@ body {
     letter-spacing: 3px;
 }
 
-.about-content h2 {
-    font-size: 34px;
-    margin-bottom: 20px;
-}
+.about-content h2 { font-size: 34px; margin-bottom: 20px; }
 
 .about-content > p {
     color: var(--text);
@@ -314,15 +313,8 @@ body {
     margin-bottom: 30px;
 }
 
-.about-info div {
-    font-size: 12px;
-    color: var(--text);
-}
-
-.about-info i {
-    color: var(--purple);
-    margin-right: 6px;
-}
+.about-info div { font-size: 12px; color: var(--text); }
+.about-info i { color: var(--purple); margin-right: 6px; }
 
 /* SKILLS */
 .skills-section {
@@ -350,10 +342,7 @@ body {
     box-shadow: 0 0 25px rgba(139, 61, 255, 0.3);
 }
 
-.skill-card > i {
-    font-size: 45px;
-    margin-bottom: 10px;
-}
+.skill-card > i { font-size: 45px; margin-bottom: 10px; }
 
 .html-icon { color: #ff6b35; }
 .css-icon { color: #2196f3; }
@@ -361,10 +350,7 @@ body {
 .bootstrap-icon { color: #8b3dff; }
 .react-icon { color: #00c8ff; }
 
-.skill-card h3 {
-    font-size: 13px;
-    margin-bottom: 20px;
-}
+.skill-card h3 { font-size: 13px; margin-bottom: 20px; }
 
 .progress-circle {
     width: 100px;
@@ -394,10 +380,7 @@ body {
     font-weight: bold;
 }
 
-.center-btn {
-    text-align: center;
-    margin-top: 40px;
-}
+.center-btn { text-align: center; margin-top: 40px; }
 
 /* PROJECTS */
 .projects-grid {
@@ -420,15 +403,9 @@ body {
     box-shadow: 0 0 25px rgba(139, 61, 255, 0.3);
 }
 
-.project-card img {
-    width: 100%;
-    display: block;
-}
+.project-card img { width: 100%; display: block; }
 
-.project-content {
-    padding: 20px;
-}
-
+.project-content { padding: 20px; }
 .project-content h3 { font-size: 15px; }
 .project-content p { font-size: 11px; color: var(--text); margin-top: 8px; }
 
@@ -441,10 +418,9 @@ body {
 .project-icons a { color: white; transition: 0.3s; }
 .project-icons a:hover { color: var(--purple); }
 
-/* ELECTROTECH BANNER */
-.electrotech-banner-section {
-    padding: 40px 10%;
-}
+/* ELECTROTECH */
+.electrotech-banner-section { padding: 40px 10%; }
+
 .electrotech-card {
     background: linear-gradient(135deg, #09152b, #050814);
     border: 1px solid var(--blue);
@@ -529,6 +505,7 @@ body {
 }
 
 .green { color: var(--green); }
+
 .loading {
     display: inline-block;
     width: 150px;
@@ -574,9 +551,14 @@ body {
 .contact-info p { color: var(--text); margin: 15px 0; font-size: 14px; }
 .contact-info i { color: var(--purple); width: 25px; }
 
-.contact-form { display: flex; flex-direction: column; gap: 15px; }
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
 
-.contact-form input, .contact-form textarea {
+.contact-form input,
+.contact-form textarea {
     width: 100%;
     background: #080d1c;
     border: 1px solid var(--border);
@@ -588,12 +570,14 @@ body {
 }
 
 .contact-form textarea { height: 150px; resize: none; }
-.contact-form input:focus, .contact-form textarea:focus {
+
+.contact-form input:focus,
+.contact-form textarea:focus {
     border-color: var(--purple);
     box-shadow: 0 0 15px rgba(139, 61, 255, 0.2);
 }
 
-/* FOOTER & SOCIAL ICONS */
+/* FOOTER */
 footer {
     padding: 30px 10%;
     border-top: 1px solid var(--border);
@@ -605,6 +589,7 @@ footer {
 footer p { color: var(--text); font-size: 11px; }
 
 .social-icons { display: flex; gap: 15px; }
+
 .social-icons a {
     color: var(--text);
     font-size: 18px;
@@ -627,20 +612,26 @@ footer p { color: var(--text); font-size: 11px; }
     box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
 }
 
-/* CARDS & FUTURISTIC LAYOUTS FOR SUB-PAGES */
+/* SUB-PAGES */
 .page-header {
-    padding: 150px 10% 40px;
+    padding: 80px 10% 40px;
     text-align: center;
     background: radial-gradient(circle at 50% 20%, rgba(139, 61, 255, 0.2), transparent 40%);
 }
 
-.friends-grid, .courses-grid, .services-grid, .blog-grid {
+.friends-grid,
+.courses-grid,
+.services-grid,
+.blog-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 30px;
 }
 
-.friend-card, .course-card, .service-card, .blog-card {
+.friend-card,
+.course-card,
+.service-card,
+.blog-card {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 12px;
@@ -648,7 +639,10 @@ footer p { color: var(--text); font-size: 11px; }
     transition: 0.3s;
 }
 
-.friend-card:hover, .course-card:hover, .service-card:hover, .blog-card:hover {
+.friend-card:hover,
+.course-card:hover,
+.service-card:hover,
+.blog-card:hover {
     border-color: var(--gold);
     transform: translateY(-8px);
     box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
@@ -700,61 +694,9 @@ footer p { color: var(--text); font-size: 11px; }
     position: relative;
 }
 
-/* RESPONSIVE */
-@media (max-width: 1000px) {
-    .hero { padding: 130px 7% 70px; }
-    .section { padding: 80px 7%; }
-    .hero h1 { font-size: 60px; }
-    .skills-grid { grid-template-columns: repeat(3, 1fr); }
-    .friends-grid, .courses-grid, .services-grid, .blog-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 768px) {
-    .navbar { padding: 0 6%; }
-    .nav-links {
-        position: absolute;
-        top: 75px;
-        left: 0;
-        width: 100%;
-        flex-direction: column;
-        background: #080d1c;
-        padding: 30px;
-        display: none;
-    }
-    .nav-links.active { display: flex; }
-    .menu-btn { display: block; }
-    .hero { flex-direction: column; text-align: center; padding-top: 130px; }
-    .hero-text { width: 100%; }
-    .hero-buttons { justify-content: center; flex-wrap: wrap; }
-    .hero-image { width: 100%; margin-top: 50px; }
-    .hero h1 { font-size: 52px; }
-    .about { grid-template-columns: 1fr; }
-    .projects-grid { grid-template-columns: 1fr; }
-    .skills-grid { grid-template-columns: repeat(2, 1fr); }
-    .timeline { flex-direction: column; }
-    .timeline::before { display: none; }
-    .timeline-item { width: 100%; display: flex; flex-direction: column; align-items: center; }
-    .stats { grid-template-columns: repeat(2, 1fr); }
-    .contact-section { grid-template-columns: 1fr; }
-    footer { flex-direction: column; gap: 20px; text-align: center; }
-    .friends-grid, .courses-grid, .services-grid, .blog-grid { grid-template-columns: 1fr; }
-}
-
-@media (max-width: 450px) {
-    .hero h1 { font-size: 42px; }
-    .hero h2 { font-size: 20px; }
-    .hero-image { height: 350px; }
-    .circle { width: 280px; height: 280px; }
-    .hero-image img { width: 220px; height: 220px; }
-    .skills-grid { grid-template-columns: 1fr; }
-    .stats { grid-template-columns: 1fr; }
-}
-
-
 /* =========================================================
-   MR MOIN — EXECUTIVE / FOUNDER ABOUT UPGRADE
+   MR MOIN — EXECUTIVE / FOUNDER ABOUT
    ========================================================= */
-
 .founder-about {
     position: relative;
     grid-template-columns: minmax(320px, .85fr) minmax(420px, 1.15fr);
@@ -790,6 +732,7 @@ footer p { color: var(--text); font-size: 11px; }
 }
 
 .founder-image-box {
+    position: relative;
     padding: 18px;
     border-radius: 18px;
     background:
@@ -978,9 +921,7 @@ footer p { color: var(--text); font-size: 11px; }
     gap: 3px;
 }
 
-.founder-info i {
-    color: var(--blue);
-}
+.founder-info i { color: var(--blue); }
 
 .founder-actions {
     display: flex;
@@ -988,9 +929,7 @@ footer p { color: var(--text); font-size: 11px; }
     flex-wrap: wrap;
 }
 
-.founder-actions .primary-btn {
-    border-color: transparent;
-}
+.founder-actions .primary-btn { border-color: transparent; }
 
 .founder-strip {
     width: 80%;
@@ -1019,57 +958,151 @@ footer p { color: var(--text); font-size: 11px; }
     font-weight: 600;
 }
 
-.founder-strip i {
-    color: var(--gold);
-    font-size: 13px;
-}
+.founder-strip i { color: var(--gold); font-size: 13px; }
 
-/* Executive-level navbar polish */
-.navbar {
-    box-shadow: 0 8px 35px rgba(0,0,0,.22);
-}
-
-.nav-links a {
-    position: relative;
-}
-
-.nav-links a:not(.live-nav-btn):not(.electrotech-nav-btn)::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 100%;
-    bottom: -7px;
-    height: 1px;
-    background: var(--gold);
-    transition: .3s ease;
-}
-
-.nav-links a:not(.live-nav-btn):not(.electrotech-nav-btn):hover::after {
-    right: 0;
-}
-
-@media (min-width: 1101px) {
-    .founder-about .about-image {
-        padding-left: 15px;
-    }
-}
-
+/* =========================
+   RESPONSIVE
+   ========================= */
 @media (max-width: 1000px) {
+    .navbar { padding: 10px 7%; }
+    .hero { padding: 90px 7% 70px; }
+    .section { padding: 80px 7%; }
+
+    .hero h1 { font-size: 60px; }
+    .skills-grid { grid-template-columns: repeat(3, 1fr); }
+
+    .friends-grid,
+    .courses-grid,
+    .services-grid,
+    .blog-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
     .founder-about {
         grid-template-columns: 1fr 1.1fr;
         gap: 45px;
     }
 
-    .founder-strip {
-        width: 86%;
-    }
+    .founder-strip { width: 86%; }
 }
 
 @media (max-width: 768px) {
+    /* IMPORTANT:
+       Mobile navbar stays in document flow so it can NEVER
+       cover the content/image underneath it. */
+    .navbar {
+        position: sticky;
+        top: 0;
+        min-height: 68px;
+        padding: 9px 6%;
+    }
+
+    .logo {
+        gap: 8px;
+        font-size: 18px;
+    }
+
+    .nav-logo-img {
+        width: 36px;
+        height: 36px;
+    }
+
+    .menu-btn {
+        display: block;
+        font-size: 25px;
+        line-height: 1;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        gap: 16px;
+        align-items: stretch;
+        background: rgba(8,13,28,.98);
+        padding: 22px 6%;
+        display: none;
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 15px 30px rgba(0,0,0,.35);
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links a {
+        font-size: 12px;
+        padding: 8px 0;
+    }
+
+    .nav-links a::after {
+        display: none !important;
+    }
+
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        min-height: auto;
+        padding: 80px 7% 70px;
+    }
+
+    .hero-text { width: 100%; }
+
+    .hero-buttons {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .hero-image {
+        width: 100%;
+        max-width: 420px;
+        margin-top: 45px;
+    }
+
+    .hero h1 { font-size: 52px; }
+
+    .about {
+        grid-template-columns: 1fr;
+    }
+
+    .projects-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .timeline {
+        flex-direction: column;
+    }
+
+    .timeline::before { display: none; }
+
+    .timeline-item {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .contact-section { grid-template-columns: 1fr; }
+
+    footer {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .friends-grid,
+    .courses-grid,
+    .services-grid,
+    .blog-grid {
+        grid-template-columns: 1fr;
+    }
+
     .founder-about {
         min-height: auto;
         gap: 42px;
-        padding-top: 80px;
+        padding-top: 70px;
     }
 
     .founder-image-box {
@@ -1077,9 +1110,7 @@ footer p { color: var(--text); font-size: 11px; }
         margin: 0 auto;
     }
 
-    .founder-content {
-        text-align: left;
-    }
+    .founder-content { text-align: left; }
 
     .founder-highlights {
         grid-template-columns: 1fr;
@@ -1088,7 +1119,7 @@ footer p { color: var(--text); font-size: 11px; }
     .founder-strip {
         width: 88%;
         grid-template-columns: repeat(2, 1fr);
-        margin-top: -10px;
+        margin-top: 10px;
     }
 
     .founder-strip div {
@@ -1097,23 +1128,66 @@ footer p { color: var(--text); font-size: 11px; }
 }
 
 @media (max-width: 450px) {
+    .navbar {
+        min-height: 64px;
+        padding: 8px 5%;
+    }
+
+    .logo {
+        font-size: 17px;
+    }
+
+    .nav-logo-img {
+        width: 34px;
+        height: 34px;
+    }
+
+    .menu-btn { font-size: 24px; }
+
+    .hero {
+        padding: 65px 6% 60px;
+    }
+
+    .hero h1 { font-size: 42px; }
+    .hero h2 { font-size: 20px; }
+
+    .hero-image {
+        height: 350px;
+        margin-top: 35px;
+    }
+
+    .circle {
+        width: 280px;
+        height: 280px;
+    }
+
+    .hero-image img {
+        width: 220px;
+        height: 220px;
+    }
+
+    .section {
+        padding: 70px 6%;
+        scroll-margin-top: 75px;
+    }
+
+    .skills-grid { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: 1fr; }
+
     .founder-about {
         padding-left: 6%;
         padding-right: 6%;
+        padding-top: 60px;
     }
 
-    .founder-content h2 {
-        font-size: 39px;
-    }
+    .founder-content h2 { font-size: 39px; }
 
     .founder-role {
         font-size: 10px;
         letter-spacing: 1.4px;
     }
 
-    .founder-description {
-        font-size: 13px;
-    }
+    .founder-description { font-size: 13px; }
 
     .founder-actions .btn {
         width: 100%;
@@ -1126,13 +1200,18 @@ footer p { color: var(--text); font-size: 11px; }
         gap: 5px;
     }
 
-    .founder-strip div {
-        font-size: 9px;
-    }
+    .founder-strip div { font-size: 9px; }
 
     .founder-badge {
         left: 24px;
         bottom: 24px;
     }
-}
 
+    .electrotech-card {
+        padding: 25px 18px;
+    }
+
+    .live-container {
+        height: 400px;
+    }
+}
