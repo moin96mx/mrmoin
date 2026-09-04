@@ -2,19 +2,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     // ============================================================
     // MR MOIN LIVE ROOM — Supabase Backend
     // ============================================================
-    // IMPORTANT:
-    // 1) Put your Supabase Project URL and PUBLIC anon key here.
-    // 2) NEVER put the Supabase service_role key here.
-    // 3) The admin password is NOT stored in this JavaScript.
-    //    Create the admin user in Supabase Authentication instead.
-    //
-    // SUPABASE SETUP:
-    // const SUPABASE_URL = "https://YOUR-PROJECT.supabase.co";
-    // const SUPABASE_ANON_KEY = "YOUR_PUBLIC_ANON_KEY";
-    // ============================================================
 
-    const SUPABASE_URL = "YOUR_SUPABASE_URL";
-    const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+    const SUPABASE_URL = "https://rvzgezwckqdloodqkwwo.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_SdMVHuvRH36yJCh78L04Fg_hWsDFh3u";
 
     const hasSupabaseConfig =
         !SUPABASE_URL.includes("YOUR_") &&
@@ -70,16 +60,16 @@ document.addEventListener("DOMContentLoaded", async () => {
             interfaceConfigOverwrite: {
                 TOOLBAR_BUTTONS: admin
                     ? [
-                        "microphone", "camera", "chat", "raisehand",
-                        "tileview", "fullscreen", "hangup",
-                        "desktop", "mute-everyone", "security",
-                        "recording", "settings", "select-background",
-                        "videoquality", "filmstrip"
-                    ]
+                          "microphone", "camera", "chat", "raisehand",
+                          "tileview", "fullscreen", "hangup",
+                          "desktop", "mute-everyone", "security",
+                          "recording", "settings", "select-background",
+                          "videoquality", "filmstrip"
+                      ]
                     : [
-                        "microphone", "camera", "chat", "raisehand",
-                        "tileview", "fullscreen", "hangup"
-                    ]
+                          "microphone", "camera", "chat", "raisehand",
+                          "tileview", "fullscreen", "hangup"
+                      ]
             }
         };
 
@@ -112,8 +102,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         const email = prompt("Admin email:");
         if (!email) return;
 
-        // The password is entered into Supabase Auth and is never hardcoded
-        // into this frontend source code.
         const password = prompt("Admin password:");
         if (!password) return;
 
@@ -333,10 +321,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
-    // Existing admin controls
     const changeRoomBtn = $("changeRoom");
     if (changeRoomBtn) {
-        changeRoomBtn.addEventListener("click", () => {
+        changeRoomBtn.changeRoomBtn?.addEventListener("click", () => {
             if (!isAdmin) {
                 alert("Admin access required.");
                 return;
@@ -389,7 +376,3 @@ document.addEventListener("DOMContentLoaded", async () => {
         );
     }
 });
-
-const SUPABASE_URL = "https://rvzgezwckqdloodqkwwo.supabase.co";
-
-const SUPABASE_ANON_KEY = "sb_publishable_SdMVHuvRH36yJCh78L04Fg_hWsDFh3u";
