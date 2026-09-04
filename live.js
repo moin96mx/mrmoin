@@ -1,126 +1,395 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+    // ============================================================
+    // MR MOIN LIVE ROOM — Supabase Backend
+    // ============================================================
+    // IMPORTANT:
+    // 1) Put your Supabase Project URL and PUBLIC anon key here.
+    // 2) NEVER put the Supabase service_role key here.
+    // 3) The admin password is NOT stored in this JavaScript.
+    //    Create the admin user in Supabase Authentication instead.
+    //
+    // SUPABASE SETUP:
+    // const SUPABASE_URL = "https://YOUR-PROJECT.supabase.co";
+    // const SUPABASE_ANON_KEY = "YOUR_PUBLIC_ANON_KEY";
+    // ============================================================
+
+    const SUPABASE_URL = "YOUR_SUPABASE_URL";
+    const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+
+    const hasSupabaseConfig =
+        !SUPABASE_URL.includes("YOUR_") &&
+        !SUPABASE_ANON_KEY.includes("YOUR_");
+
+    const supabaseClient = hasSupabaseConfig
+        ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+        : null;
+
     let api = null;
-    let currentRoom = 'MrMoin_Live_Conference_Room_2026';
+    let currentRoom = "MrMoin_Live_Conference_Room_2026";
+    let isAdmin = false;
+    let presenceChannel = null;
+    let chatChannel = null;
+    let visitorId = localStorage.getItem("mrmoin_live_visitor_id");
 
-    const initJitsi = (isAdmin = false, roomName = currentRoom) => {
-        const domain = 'meet.jit.si';
-        const container = document.querySelector('#jitsi-container');
-        container.innerHTML = '';
+    if (!visitorId) {
+        visitorId = crypto.randomUUID();
+        localStorage.setItem("mrmoin_live_visitor_id", visitorId);
+    }
 
+    const $ = (id) => document.getElementById(id);
+
+    // ------------------------------------------------------------
+    // JITSI
+    // ------------------------------------------------------------
+    function initJitsi(admin = false) {
+        if (typeof JitsiMeetExternalAPI === "undefined") {
+            console.error("Jitsi External API was not loaded.");
+            return;
+        }
+
+        const container = $("jitsi-container");
+        if (!container) return;
+
+        container.innerHTML = "";
+
+        const domain = "meet.jit.si";
         const options = {
-            roomName: roomName,
-            width: '100%',
-            height: '100%',
+            roomName: currentRoom,
+            width: "100%",
+            height: "100%",
             parentNode: container,
             userInfo: {
-                displayName: isAdmin ? 'MR MOIN (Host)' : 'Guest User'
+                displayName: admin ? "Mr. Moin (Admin)" : getGuestName()
             },
             configOverwrite: {
-                prejoinPageEnabled: false,
+                prejoinPageEnabled: true,
                 disableDeepLinking: true,
-                enableWelcomePage: false,
                 startWithAudioMuted: false,
-                disableRemoteMute: !isAdmin
+                startWithVideoMuted: false
             },
             interfaceConfigOverwrite: {
-                SHOW_JITSI_WATERMARK: false,
-                SHOW_WATERMARK_FOR_GUESTS: false,
-                MOBILE_APP_PROMO: false,
-                TOOLBAR_BUTTONS: [
-                    'microphone', 'camera', 'chat', 'raisehand', 'tileview', 'fullscreen', 'hangup',
-                    ...(isAdmin ? [
-                        'desktop', 
-                        'mute-everyone', 
-                        'security', 
-                        'recording', 
-                        'settings', 
-                        'select-background', 
-                        'fodeviceselection'
-                    ] : [])
-                ]
+                TOOLBAR_BUTTONS: admin
+                    ? [
+                        "microphone", "camera", "chat", "raisehand",
+                        "tileview", "fullscreen", "hangup",
+                        "desktop", "mute-everyone", "security",
+                        "recording", "settings", "select-background",
+                        "videoquality", "filmstrip"
+                    ]
+                    : [
+                        "microphone", "camera", "chat", "raisehand",
+                        "tileview", "fullscreen", "hangup"
+                    ]
             }
         };
+
         api = new JitsiMeetExternalAPI(domain, options);
-    };
 
-    initJitsi(false);
+        api.addEventListener("videoConferenceJoined", () => {
+            broadcastPresence();
+        });
 
-    // ADMIN TOGGLE & SETTINGS PANEL
-    const adminModeBtn = document.getElementById("adminModeBtn");
-    const adminSettingsPanel = document.getElementById("adminSettingsPanel");
-    const changeRoomBtn = document.getElementById("changeRoomBtn");
-    const customRoomInput = document.getElementById("customRoomInput");
-    const toggleAudioBtn = document.getElementById("toggleAudioBtn");
-    const reloadMeetingBtn = document.getElementById("reloadMeetingBtn");
+        api.addEventListener("videoConferenceLeft", () => {
+            broadcastPresence();
+        });
+    }
 
-    if (adminModeBtn) {
-        adminModeBtn.addEventListener("click", () => {
-            const password = prompt("Enter Admin Password:");
-            if (password === "moin123") {
-                initJitsi(true);
-                adminModeBtn.style.background = "#00ff88";
-                adminModeBtn.style.color = "#000";
-                adminModeBtn.innerHTML = `<i class="fa-solid fa-user-check"></i> Admin Active`;
-                
-                // Show Settings Panel
-                if (adminSettingsPanel) {
-                    adminSettingsPanel.style.display = "grid";
+    function getGuestName() {
+        return localStorage.getItem("mrmoin_live_name") || "Guest";
+    }
+
+    // ------------------------------------------------------------
+    // SECURE ADMIN AUTH
+    // ------------------------------------------------------------
+    async function adminLogin() {
+        if (!supabaseClient) {
+            alert(
+                "Supabase is not configured yet. Open README-SETUP.md and add your Supabase URL + public anon key."
+            );
+            return;
+        }
+
+        const email = prompt("Admin email:");
+        if (!email) return;
+
+        // The password is entered into Supabase Auth and is never hardcoded
+        // into this frontend source code.
+        const password = prompt("Admin password:");
+        if (!password) return;
+
+        const { error } = await supabaseClient.auth.signInWithPassword({
+            email,
+            password
+        });
+
+        if (error) {
+            alert("Admin login failed: " + error.message);
+            return;
+        }
+
+        const { data: profile, error: profileError } = await supabaseClient
+            .from("live_admins")
+            .select("user_id, display_name")
+            .eq("user_id", (await supabaseClient.auth.getUser()).data.user.id)
+            .maybeSingle();
+
+        if (profileError || !profile) {
+            await supabaseClient.auth.signOut();
+            alert("This account is not authorized as a live-room admin.");
+            return;
+        }
+
+        isAdmin = true;
+        initJitsi(true);
+
+        const panel = $("adminPanel");
+        if (panel) panel.style.display = "block";
+
+        const btn = $("adminBtn");
+        if (btn) btn.textContent = "Admin Active";
+
+        alert("Admin login successful.");
+    }
+
+    async function adminLogout() {
+        if (supabaseClient) await supabaseClient.auth.signOut();
+        isAdmin = false;
+
+        const panel = $("adminPanel");
+        if (panel) panel.style.display = "none";
+
+        const btn = $("adminBtn");
+        if (btn) btn.textContent = "Host / Admin Access";
+
+        initJitsi(false);
+    }
+
+    // ------------------------------------------------------------
+    // PRESENCE — realtime online users
+    // ------------------------------------------------------------
+    async function setupPresence() {
+        if (!supabaseClient) return;
+
+        presenceChannel = supabaseClient.channel("mrmoin-live-presence", {
+            config: {
+                presence: {
+                    key: visitorId
                 }
             }
         });
+
+        presenceChannel
+            .on("presence", { event: "sync" }, () => {
+                const state = presenceChannel.presenceState();
+                const count = Object.keys(state).length;
+
+                const onlineEl =
+                    $("onlineUsers") ||
+                    $("onlineCount") ||
+                    $("liveUsersCount");
+
+                if (onlineEl) onlineEl.textContent = count;
+            })
+            .subscribe(async (status) => {
+                if (status === "SUBSCRIBED") {
+                    await presenceChannel.track({
+                        id: visitorId,
+                        name: getGuestName(),
+                        role: isAdmin ? "admin" : "guest",
+                        joined_at: new Date().toISOString()
+                    });
+                }
+            });
     }
 
-    // ADMIN SETTINGS ACTIONS
-    if (changeRoomBtn && customRoomInput) {
-        changeRoomBtn.addEventListener("click", () => {
-            const newRoom = customRoomInput.value.trim();
-            if (newRoom) {
-                currentRoom = newRoom.replace(/\s+/g, '_');
-                initJitsi(true, currentRoom);
-                customRoomInput.value = "";
-            }
+    async function broadcastPresence() {
+        if (!presenceChannel) return;
+        await presenceChannel.track({
+            id: visitorId,
+            name: getGuestName(),
+            role: isAdmin ? "admin" : "guest",
+            updated_at: new Date().toISOString()
         });
     }
 
-    if (toggleAudioBtn) {
-        toggleAudioBtn.addEventListener("click", () => {
-            if (api) {
-                api.executeCommand('toggleAudio');
-            }
-        });
+    // ------------------------------------------------------------
+    // Q&A — persistent database + realtime
+    // ------------------------------------------------------------
+    async function loadQuestions() {
+        if (!supabaseClient || !$("questionsList")) return;
+
+        const { data, error } = await supabaseClient
+            .from("live_questions")
+            .select("id, name, question, created_at")
+            .eq("status", "approved")
+            .order("created_at", { ascending: false });
+
+        if (error) {
+            console.error("Question load error:", error);
+            return;
+        }
+
+        const list = $("questionsList");
+        list.innerHTML = "";
+
+        data.forEach(renderQuestion);
     }
 
-    if (reloadMeetingBtn) {
-        reloadMeetingBtn.addEventListener("click", () => {
-            if (api) {
-                initJitsi(true, currentRoom);
-            }
-        });
+    function renderQuestion(q) {
+        const list = $("questionsList");
+        if (!list) return;
+
+        const card = document.createElement("div");
+        card.className = "q-card";
+
+        const name = document.createElement("strong");
+        name.textContent = q.name || "Guest";
+
+        const question = document.createElement("p");
+        question.textContent = q.question || "";
+
+        card.appendChild(name);
+        card.appendChild(question);
+        list.prepend(card);
     }
 
-    // Q&A FORM
-    const qaForm = document.getElementById("qaForm");
-    const questionsList = document.getElementById("questionsList");
+    function setupQuestionRealtime() {
+        if (!supabaseClient) return;
 
+        supabaseClient
+            .channel("mrmoin-live-questions")
+            .on(
+                "postgres_changes",
+                {
+                    event: "INSERT",
+                    schema: "public",
+                    table: "live_questions",
+                    filter: "status=eq.approved"
+                },
+                (payload) => renderQuestion(payload.new)
+            )
+            .subscribe();
+    }
+
+    // ------------------------------------------------------------
+    // OPTIONAL CUSTOM CHAT — Supabase Realtime Broadcast
+    // ------------------------------------------------------------
+    function setupChatBroadcast() {
+        if (!supabaseClient) return;
+
+        chatChannel = supabaseClient.channel("mrmoin-live-chat");
+        chatChannel.subscribe();
+    }
+
+    // ------------------------------------------------------------
+    // FORM EVENTS
+    // ------------------------------------------------------------
+    const qaForm = $("qaForm");
     if (qaForm) {
-        qaForm.addEventListener("submit", (e) => {
+        qaForm.addEventListener("submit", async (e) => {
             e.preventDefault();
-            const name = document.getElementById("qaName").value;
-            const email = document.getElementById("qaEmail").value.trim();
-            const question = document.getElementById("qaQuestion").value;
 
-            if (questionsList.children[0] && questionsList.children[0].tagName === "P") {
-                questionsList.innerHTML = "";
+            const name = ($("qaName")?.value || "").trim();
+            const email = ($("qaEmail")?.value || "").trim();
+            const question = ($("qaQuestion")?.value || "").trim();
+
+            if (!name || !question) {
+                alert("Please enter your name and question.");
+                return;
             }
 
-            const qCard = document.createElement("div");
-            qCard.classList.add("q-card");
-            
-            const emailText = email ? ` <span style="color: var(--text); font-weight: normal; font-size: 11px;">(${email})</span>` : '';
-            qCard.innerHTML = `<strong>${name}${emailText}</strong><p>${question}</p>`;
+            if (!supabaseClient) {
+                alert("Supabase is not configured yet.");
+                return;
+            }
 
-            questionsList.prepend(qCard);
+            const { error } = await supabaseClient
+                .from("live_questions")
+                .insert({
+                    name,
+                    email: email || null,
+                    question,
+                    status: "approved"
+                });
+
+            if (error) {
+                alert("Could not submit your question: " + error.message);
+                return;
+            }
+
             qaForm.reset();
+            alert("Your question was submitted.");
         });
+    }
+
+    const adminBtn = $("adminBtn");
+    if (adminBtn) {
+        adminBtn.addEventListener("click", () => {
+            if (isAdmin) {
+                adminLogout();
+            } else {
+                adminLogin();
+            }
+        });
+    }
+
+    // Existing admin controls
+    const changeRoomBtn = $("changeRoom");
+    if (changeRoomBtn) {
+        changeRoomBtn.addEventListener("click", () => {
+            if (!isAdmin) {
+                alert("Admin access required.");
+                return;
+            }
+
+            const newRoom = prompt("Enter new Jitsi room name:", currentRoom);
+            if (!newRoom) return;
+
+            currentRoom = newRoom.trim().replace(/\s+/g, "_");
+
+            if (api) api.dispose();
+            initJitsi(true);
+        });
+    }
+
+    const toggleMuteBtn = $("toggleMute");
+    if (toggleMuteBtn) {
+        toggleMuteBtn.addEventListener("click", () => {
+            if (!api) return;
+            api.executeCommand("toggleAudio");
+        });
+    }
+
+    const resetBtn = $("resetStream");
+    if (resetBtn) {
+        resetBtn.addEventListener("click", () => {
+            if (!isAdmin) {
+                alert("Admin access required.");
+                return;
+            }
+
+            if (api) api.dispose();
+            initJitsi(true);
+        });
+    }
+
+    // ------------------------------------------------------------
+    // START
+    // ------------------------------------------------------------
+    initJitsi(false);
+
+    if (supabaseClient) {
+        await setupPresence();
+        await loadQuestions();
+        setupQuestionRealtime();
+        setupChatBroadcast();
+    } else {
+        console.warn(
+            "Supabase not configured. Jitsi still works, but realtime backend features are disabled."
+        );
     }
 });
+
+const SUPABASE_URL = "https://rvzgezwckqdloodqkwwo.supabase.co";
+
+const SUPABASE_ANON_KEY = "sb_publishable_SdMVHuvRH36yJCh78L04Fg_hWsDFh3u";
