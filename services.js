@@ -84,7 +84,7 @@ function updateLivePreview() {
     document.getElementById('hudStatus').style.color = '#00f0ff';
 }
 
-// FORM TRANSMISSION TO EMAIL VIA FORMSPREE
+// FORM TRANSMISSION TO EMAIL VIA FORMSUBMIT (contact.mrmoin@gmail.com)
 const cyberForm = document.getElementById('futuristicOrderForm');
 if (cyberForm) {
     cyberForm.addEventListener('submit', async function(e) {
@@ -102,15 +102,34 @@ if (cyberForm) {
                 headers: { 'Accept': 'application/json' }
             });
 
-            if (response.ok) {
+            let result = {};
+            try { result = await response.json(); } catch (_) {}
+
+            const ok = response.ok && (result.success === true || result.success === 'true');
+
+            if (ok) {
                 btn.innerHTML = 'TRANSMISSION SUCCESSFUL <i class="fa-solid fa-circle-check"></i>';
-                alert('🚀 [SUCCESS] আপনার অর্ডারের সকল তথ্য MR MOIN-এর ইমেইলে পৌছে গিয়েছে!');
+                alert('🚀 [SUCCESS] আপনার অর্ডারের সকল তথ্য MR MOIN-এর ইমেইলে পৌছে গিয়েছে!');
+
+                // reset() would put the readonly service field back to its default value,
+                // so keep the currently selected service.
+                const selectedService = document.getElementById('selected_service').value;
                 cyberForm.reset();
+                document.getElementById('selected_service').value = selectedService;
+
                 updateLivePreview();
+                const hud = document.getElementById('hudStatus');
+                hud.innerText = 'READY';
+                hud.style.color = '';
             } else {
-                alert('❌ [ERROR] মেসেজ পাঠাতে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।');
+                console.error('FormSubmit response:', result);
+                console.error('FormSubmit HTTP status:', response.status);
+                alert('❌ [ERROR] মেসেজ পাঠাতে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।'
+                    + (result.message ? '\n\nDetails: ' + result.message : '\n\nHTTP status: ' + response.status));
+                btn.innerHTML = 'TRANSMIT SPECIFICATIONS <i class="fa-solid fa-paper-plane"></i>';
             }
         } catch (err) {
+            console.error('Fetch error:', err);
             alert('⚠️ [NETWORK ERROR] ইন্টারনেট সংযোগ চেক করুন।');
         } finally {
             setTimeout(() => {
