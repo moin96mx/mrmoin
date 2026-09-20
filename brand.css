@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+    --brand-bg: #081423;
+    --brand-surface: #10233a;
+    --brand-surface-soft: rgba(16, 35, 58, 0.88);
+    --brand-line: rgba(155, 181, 204, 0.24);
+    --brand-text: #aab8c7;
+    --brand-white: #f5f7fa;
+    --brand-blue: #5b8def;
+    --brand-teal: #65c7e8;
+    --brand-amber: #f2b84b;
+    --brand-coral: #f07b61;
+}
+
+html { background: var(--brand-bg); }
+body {
+    background-color: var(--brand-bg) !important;
+    color: var(--brand-white);
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0;
+}
+
+.navbar {
+    background: rgba(8, 20, 35, 0.94) !important;
+    border-bottom: 1px solid var(--brand-line) !important;
+    backdrop-filter: blur(18px);
+}
+
+.logo {
+    color: var(--brand-white) !important;
+    font-family: 'Space Grotesk', sans-serif !important;
+    letter-spacing: 0 !important;
+}
+.logo span { color: var(--brand-teal) !important; text-shadow: none !important; }
+.nav-logo-img, .footer-logo-img {
+    border-color: var(--brand-amber) !important;
+    box-shadow: 0 0 16px rgba(242, 184, 75, 0.2) !important;
+}
+.nav-links a {
+    color: var(--brand-text) !important;
+    font-family: 'IBM Plex Mono', monospace !important;
+    letter-spacing: 0 !important;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--brand-teal) !important; text-shadow: none !important; }
+
+.page-header { padding-top: clamp(56px, 8vw, 96px) !important; }
+.section-title, .cyber-title {
+    font-family: 'Space Grotesk', sans-serif !important;
+    letter-spacing: 0 !important;
+}
+.section-subtitle, .header-desc, .cyber-subtitle { color: var(--brand-text) !important; }
+.cyber-badge, .section-small-title {
+    color: var(--brand-amber) !important;
+    border-color: rgba(242, 184, 75, 0.65) !important;
+    box-shadow: none !important;
+}
+
+.service-card, .blog-card, .friend-card, .course-card, .featured-blog-card,
+.hud-card, .hud-preview, .affiliate-box, .stat-box, .contact-form {
+    background: var(--brand-surface-soft) !important;
+    border-color: var(--brand-line) !important;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.16) !important;
+}
+.service-card:hover, .blog-card:hover, .friend-card:hover, .course-card:hover { border-color: var(--brand-teal) !important; }
+
+.primary-btn, .order-btn, .cyber-btn, .cyber-read-btn {
+    background: linear-gradient(135deg, var(--brand-blue), var(--brand-teal)) !important;
+    color: #06111e !important;
+    box-shadow: none !important;
+}
+.outline-btn { border-color: var(--brand-amber) !important; color: var(--brand-amber) !important; }
+.service-price, .total-price, .price, .gold, .affiliate-icon { color: var(--brand-amber) !important; }
+
+footer { background: rgba(8, 20, 35, 0.96) !important; border-color: var(--brand-line) !important; }
+footer p, .muted, .service-desc, .blog-excerpt, .friend-bio, .course-details { color: var(--brand-text) !important; }
+
+@media (max-width: 900px) {
+    .nav-links {
+        background: rgba(8, 20, 35, 0.98) !important;
+        border-bottom: 1px solid var(--brand-line) !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .page-header { padding-left: 16px !important; padding-right: 16px !important; }
+    .section-title { line-height: 1.12 !important; }
+    .section-subtitle { font-size: 14px !important; }
+    .service-filter-btns, .blog-filter-btns, .filter-buttons { justify-content: center; }
+    .s-filter-btn, .b-filter-btn, .filter-btn { max-width: 100%; }
+}
