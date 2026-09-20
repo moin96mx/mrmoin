@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
 
-:root { --bg: #08100f; --panel: #0f1d19; --line: rgba(125,157,142,.24); --text: #a9b9b1; --white: #f7faf8; --green: #b9f227; --teal: #75e6d0; --coral: #ff7657; }
+:root { --bg: #081423; --panel: #10233a; --line: rgba(155,181,204,.24); --text: #aab8c7; --white: #f5f7fa; --green: #4dd4a4; --teal: #65c7e8; --coral: #f2b84b; }
 * { box-sizing: border-box; }
 body { margin: 0; min-height: 100vh; color: var(--white); background: linear-gradient(135deg, rgba(117,230,208,.06), transparent 45%), var(--bg); font-family: 'DM Sans', sans-serif; }
 .admin-shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 56px 0 80px; }

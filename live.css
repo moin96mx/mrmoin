@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-    --bg: #050814;
-    --card-bg: rgba(11, 16, 32, 0.75);
-    --border: #1d2740;
-    --gold: #ffd700;
-    --purple: #8b3dff;
-    --blue: #00b7ff;
-    --text: #aeb7cc;
-    --white: #ffffff;
+    --bg: #081423;
+    --card-bg: rgba(16, 35, 58, 0.88);
+    --border: rgba(155, 181, 204, 0.24);
+    --gold: #f2b84b;
+    --purple: #5b8def;
+    --blue: #65c7e8;
+    --text: #aab8c7;
+    --white: #f5f7fa;
 }
 
 * {
