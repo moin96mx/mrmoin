@@ -326,3 +326,73 @@ footer p {
         padding: 35px 20px;
     }
 }
+
+.course-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--text);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+    margin-top: auto;
+}
+
+.course-price {
+    display: block;
+    color: var(--gold);
+    font-size: 22px;
+    margin: 12px 0;
+}
+
+.course-card .enroll-btn { width: 100%; }
+
+.course-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    background: rgba(2, 8, 18, 0.86);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.course-modal.active { opacity: 1; visibility: visible; }
+
+.course-modal-content {
+    position: relative;
+    width: min(100%, 560px);
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: clamp(24px, 5vw, 40px);
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+}
+
+.close-modal {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.modal-course-title { font-size: clamp(24px, 5vw, 34px); margin-bottom: 8px; }
+.modal-course-level { color: var(--blue); font-size: 13px; margin-bottom: 14px; }
+.modal-course-description { color: var(--text); line-height: 1.7; }
+.modal-curriculum { color: var(--text); padding-left: 20px; margin: 18px 0; line-height: 1.9; }
+.modal-course-price { color: var(--gold); font-size: 24px; font-weight: 700; }
+.course-enrollment-form { display: grid; gap: 12px; margin-top: 18px; }
+.course-enrollment-form input { width: 100%; background: rgba(5, 12, 24, 0.8); border: 1px solid var(--border); border-radius: 6px; color: var(--white); padding: 12px 14px; }
+.course-enrollment-form input:focus { outline: 2px solid var(--blue); outline-offset: 1px; }
+#enrollmentStatus { min-height: 20px; color: var(--gold); font-size: 13px; }

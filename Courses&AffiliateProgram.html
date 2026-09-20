@@ -49,7 +49,9 @@
         <span class="badge">BEGINNER</span>
         <h3>HTML5 & CSS3 Masterclass</h3>
         <p class="course-details">Build beautiful responsive websites from scratch using semantic HTML and custom CSS styles.</p>
-        <a href="index.html#contact" class="btn primary-btn">ENQUIRE NOW</a>
+        <div class="course-meta"><span>6 weeks</span><span>24 lessons</span></div>
+        <strong class="course-price">৳২,৫০০</strong>
+        <button class="btn primary-btn enroll-btn" data-course="HTML5 & CSS3 Masterclass" data-price="৳২,৫০০" data-level="Beginner">VIEW COURSE</button>
       </div>
 
       <div class="course-card popular">
@@ -57,7 +59,9 @@
         <span class="badge popular-badge">POPULAR</span>
         <h3>Modern JavaScript (ES6+)</h3>
         <p class="course-details">Master DOM manipulation, async JavaScript, APIs, and modern logical programming.</p>
-        <a href="index.html#contact" class="btn primary-btn">ENQUIRE NOW</a>
+        <div class="course-meta"><span>8 weeks</span><span>32 lessons</span></div>
+        <strong class="course-price">৳৩,৫০০</strong>
+        <button class="btn primary-btn enroll-btn" data-course="Modern JavaScript (ES6+)" data-price="৳৩,৫০০" data-level="Intermediate">VIEW COURSE</button>
       </div>
 
       <div class="course-card">
@@ -65,7 +69,9 @@
         <span class="badge">ADVANCED</span>
         <h3>Fullstack Node.js & Web Dev</h3>
         <p class="course-details">Complete full-stack development with frontend frameworks, Express, Node.js & databases.</p>
-        <a href="index.html#contact" class="btn primary-btn">ENQUIRE NOW</a>
+        <div class="course-meta"><span>10 weeks</span><span>40 lessons</span></div>
+        <strong class="course-price">৳৫,০০০</strong>
+        <button class="btn primary-btn enroll-btn" data-course="Fullstack Node.js & Web Dev" data-price="৳৫,০০০" data-level="Advanced">VIEW COURSE</button>
       </div>
     </div>
 
@@ -77,6 +83,30 @@
       <a href="index.html#contact" class="btn outline-btn">JOIN THE NETWORK</a>
     </div>
   </section>
+
+  <div class="course-modal" id="courseModal" aria-hidden="true">
+    <div class="course-modal-content" role="dialog" aria-modal="true" aria-labelledby="modalCourseTitle">
+      <button class="close-modal" type="button" aria-label="Close course details">&times;</button>
+      <p class="section-small-title">COURSE DETAILS</p>
+      <h2 class="modal-course-title" id="modalCourseTitle">Course title</h2>
+      <p class="modal-course-level"></p>
+      <p class="modal-course-description">Project-based lessons, weekly guidance and practical assignments designed to help you build with confidence.</p>
+      <ul class="modal-curriculum">
+        <li>Instructor-led practical lessons</li>
+        <li>Real-world project and assignment</li>
+        <li>Community support and completion certificate</li>
+      </ul>
+      <p class="modal-course-price"></p>
+      <form id="courseEnrollmentForm" class="course-enrollment-form">
+        <input type="hidden" name="course" id="enrollmentCourse">
+        <input type="text" name="name" placeholder="Your name" required>
+        <input type="email" name="email" placeholder="Your email" required>
+        <input type="tel" name="phone" placeholder="WhatsApp / phone" required>
+        <button class="btn primary-btn" type="submit">REQUEST ENROLLMENT</button>
+        <p id="enrollmentStatus" role="status"></p>
+      </form>
+    </div>
+  </div>
 
   <footer>
     <div class="logo footer-logo">

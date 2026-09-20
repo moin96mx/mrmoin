@@ -18,7 +18,7 @@ on conflict (user_id) do nothing;
 
 ## 2. Test the dashboard
 
-Open `/admin.html`, sign in with the Supabase admin account, and confirm that project enquiries, live questions, and recent page activity load.
+Open `/admin.html`, sign in with the Supabase admin account, and confirm that project enquiries, live questions, course enrolments, and recent page activity load.
 
 ## 3. Production checklist
 

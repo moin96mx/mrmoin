@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const projectList = document.getElementById('projectList');
     const questionList = document.getElementById('questionList');
     const eventList = document.getElementById('eventList');
+    const enrollmentList = document.getElementById('enrollmentList');
 
     const escapeHtml = (value = '') => String(value).replace(/[&<>'"]/g, character => ({
         '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
@@ -37,23 +38,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     ? `${escapeHtml(record.name)} · ${escapeHtml(record.service || 'General enquiry')}`
                     : type === 'event'
                         ? `${escapeHtml(record.event_type)} · ${escapeHtml(record.page_path)}`
+                        : type === 'enrollment'
+                            ? `${escapeHtml(record.name)} · ${escapeHtml(record.course)}`
                         : escapeHtml(record.name || 'Guest');
             const detail = type === 'project'
                 ? `${escapeHtml(record.email)}${record.phone ? ` · ${escapeHtml(record.phone)}` : ''}`
                     : type === 'event'
                         ? `${escapeHtml(record.page_title || 'Untitled page')} · ${escapeHtml(new Date(record.created_at).toLocaleString())}`
+                        : type === 'enrollment'
+                            ? `${escapeHtml(record.email)} · ${escapeHtml(record.phone)}`
                         : escapeHtml(record.email || 'No email provided');
-                const body = type === 'project' ? record.message : type === 'event' ? `Visitor: ${record.visitor_id}` : record.question;
-                const status = type === 'project' ? `<small>Status: ${escapeHtml(record.status)}</small>` : type === 'event' ? `<small>Referrer: ${escapeHtml(record.referrer || 'Direct visit')}</small>` : '<small>Approved live question</small>';
+                const body = type === 'project' ? record.message : type === 'event' ? `Visitor: ${record.visitor_id}` : type === 'enrollment' ? `Status: ${record.status}` : record.question;
+                const status = type === 'project' ? `<small>Status: ${escapeHtml(record.status)}</small>` : type === 'event' ? `<small>Referrer: ${escapeHtml(record.referrer || 'Direct visit')}</small>` : type === 'enrollment' ? `<small>Course request</small>` : '<small>Approved live question</small>';
             return `<article class="record"><div class="record-top"><div><strong>${title}</strong><small>${detail}</small></div>${status}</div><p>${escapeHtml(body)}</p></article>`;
         }).join('');
     }
 
     async function loadDashboard() {
-        const [{ data: projects, error: projectError }, { data: questions, error: questionError }, { data: events, error: eventError }] = await Promise.all([
+        const [{ data: projects, error: projectError }, { data: questions, error: questionError }, { data: events, error: eventError }, { data: enrollments, error: enrollmentError }] = await Promise.all([
             client.from('project_inquiries').select('*').order('created_at', { ascending: false }),
             client.from('live_questions').select('name,email,question,status,created_at').order('created_at', { ascending: false }),
-            client.from('site_events').select('visitor_id,event_type,page_path,page_title,referrer,created_at').order('created_at', { ascending: false }).limit(50)
+            client.from('site_events').select('visitor_id,event_type,page_path,page_title,referrer,created_at').order('created_at', { ascending: false }).limit(50),
+            client.from('course_enrollments').select('*').order('created_at', { ascending: false })
         ]);
 
         if (projectError) projectList.innerHTML = `<p class="status">Project table unavailable. Run supabase-schema.sql first.</p>`;
@@ -64,6 +70,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (eventError) eventList.innerHTML = `<p class="status">Run the updated schema to enable activity tracking.</p>`;
         else showRecordList(eventList, events, 'event');
+
+        if (enrollmentError) enrollmentList.innerHTML = `<p class="status">Run the updated schema to enable course enrolments.</p>`;
+        else showRecordList(enrollmentList, enrollments, 'enrollment');
     }
 
     async function setAuthenticated(user) {
@@ -112,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('refreshProjects').addEventListener('click', loadDashboard);
     document.getElementById('refreshQuestions').addEventListener('click', loadDashboard);
     document.getElementById('refreshEvents').addEventListener('click', loadDashboard);
+    document.getElementById('refreshEnrollments').addEventListener('click', loadDashboard);
 
     client.auth.getSession().then(({ data }) => setAuthenticated(data.session?.user || null));
 });

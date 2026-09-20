@@ -58,11 +58,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const title = card.querySelector("h3").innerText;
             const price = card.querySelector(".course-price").innerText;
+            const level = btn.dataset.level || card.querySelector(".badge")?.innerText || "Course";
 
             if (modal) {
                 modal.querySelector(".modal-course-title").innerText = title;
                 modal.querySelector(".modal-course-price").innerText = price;
+                modal.querySelector(".modal-course-level").innerText = `${level} level · Project-based learning`;
+                document.getElementById("enrollmentCourse").value = title;
+                document.getElementById("enrollmentStatus").textContent = "";
                 modal.classList.add("active");
+                modal.setAttribute("aria-hidden", "false");
             }
         });
     });
@@ -70,14 +75,48 @@ document.addEventListener("DOMContentLoaded", () => {
     if (closeModal) {
         closeModal.addEventListener("click", () => {
             modal.classList.remove("active");
+            modal.setAttribute("aria-hidden", "true");
         });
     }
 
     window.addEventListener("click", (e) => {
-        if (e.target === modal) {
+        if (modal && e.target === modal) {
             modal.classList.remove("active");
+            modal.setAttribute("aria-hidden", "true");
         }
     });
+
+    const enrollmentForm = document.getElementById("courseEnrollmentForm");
+    if (enrollmentForm) {
+        enrollmentForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const status = document.getElementById("enrollmentStatus");
+            const data = new FormData(enrollmentForm);
+            const config = window.MR_MOIN_SUPABASE;
+
+            if (!window.supabase || !config) {
+                status.textContent = "Enrollment service is not configured yet.";
+                return;
+            }
+
+            status.textContent = "Submitting enrollment request...";
+            const client = window.supabase.createClient(config.url, config.anonKey);
+            const { error } = await client.from("course_enrollments").insert({
+                course: data.get("course"),
+                name: data.get("name"),
+                email: data.get("email"),
+                phone: data.get("phone")
+            });
+
+            if (error) {
+                status.textContent = "Could not submit. Please try again.";
+                return;
+            }
+
+            status.textContent = "Request received. Our team will contact you soon.";
+            enrollmentForm.reset();
+        });
+    }
 
     const affBtn = document.getElementById("copyAffiliateBtn");
     if (affBtn) {
