@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin Dashboard | MR MOIN</title>
+  <link rel="stylesheet" href="admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+</head>
+<body>
+  <main class="admin-shell">
+    <header class="admin-header">
+      <div>
+        <p class="eyebrow">MR MOIN / OPERATIONS</p>
+        <h1>Project inbox</h1>
+        <p class="muted">Review new enquiries and live-room questions in one place.</p>
+      </div>
+      <button id="logoutBtn" class="button secondary" hidden>Sign out</button>
+    </header>
+
+    <section id="loginPanel" class="panel login-panel">
+      <p class="eyebrow">SECURE ACCESS</p>
+      <h2>Admin sign in</h2>
+      <form id="loginForm" class="stack">
+        <label>Email<input id="adminEmail" type="email" autocomplete="username" required></label>
+        <label>Password<input id="adminPassword" type="password" autocomplete="current-password" required></label>
+        <button class="button primary" type="submit">Sign in</button>
+        <p id="loginStatus" class="status" role="status"></p>
+      </form>
+    </section>
+
+    <section id="dashboardPanel" hidden>
+      <div class="dashboard-grid">
+        <article class="panel">
+          <div class="panel-heading"><h2>Project enquiries</h2><button id="refreshProjects" class="button small secondary">Refresh</button></div>
+          <div id="projectList" class="record-list"><p class="muted">No project enquiries yet.</p></div>
+        </article>
+        <article class="panel">
+          <div class="panel-heading"><h2>Live questions</h2><button id="refreshQuestions" class="button small secondary">Refresh</button></div>
+          <div id="questionList" class="record-list"><p class="muted">No live questions yet.</p></div>
+        </article>
+        <article class="panel">
+          <div class="panel-heading"><h2>Recent activity</h2><button id="refreshEvents" class="button small secondary">Refresh</button></div>
+          <div id="eventList" class="record-list"><p class="muted">No activity yet.</p></div>
+        </article>
+      </div>
+    </section>
+  </main>
+  <script src="admin.js?v=4"></script>
+</body>
+</html>

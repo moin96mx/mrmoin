@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
 
-    const SUPABASE_URL = "https://rvzgezwckqdloodqkwwo.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_SdMVHuvRH36yJCh78L04Fg_hWsDFh3u";
+    const SUPABASE_URL = window.MR_MOIN_SUPABASE?.url || "";
+    const SUPABASE_ANON_KEY = window.MR_MOIN_SUPABASE?.anonKey || "";
 
     const hasSupabaseConfig =
         !SUPABASE_URL.includes("YOUR_") &&
@@ -71,10 +71,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         api.addEventListener("videoConferenceJoined", () => {
             broadcastPresence();
+            logLiveEvent("live_join");
         });
 
         api.addEventListener("videoConferenceLeft", () => {
             broadcastPresence();
+            logLiveEvent("live_leave");
         });
     }
 
@@ -185,6 +187,17 @@ document.addEventListener("DOMContentLoaded", async () => {
             name: getGuestName(),
             role: isAdmin ? "admin" : "guest",
             updated_at: new Date().toISOString()
+        });
+    }
+
+    async function logLiveEvent(eventType) {
+        if (!supabaseClient) return;
+        await supabaseClient.from("site_events").insert({
+            visitor_id: visitorId,
+            event_type: eventType,
+            page_path: window.location.pathname,
+            page_title: document.title,
+            metadata: { room: currentRoom }
         });
     }
 

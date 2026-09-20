@@ -88,8 +88,30 @@ if (cyberForm) {
         btn.innerHTML = 'TRANSMITTING DATA <i class="fa-solid fa-spinner fa-spin"></i>';
 
         const formData = new FormData(cyberForm);
+        const supabaseClient = window.supabase?.createClient(
+            window.MR_MOIN_SUPABASE?.url,
+            window.MR_MOIN_SUPABASE?.anonKey
+        );
 
         try {
+            if (supabaseClient) {
+                const { error } = await supabaseClient.from('project_inquiries').insert({
+                    name: formData.get('client_name'),
+                    email: formData.get('client_email'),
+                    phone: formData.get('client_phone'),
+                    service: formData.get('selected_service'),
+                    message: formData.get('project_details') || 'No additional project details provided.'
+                });
+
+                if (!error) {
+                    btn.innerHTML = 'PROJECT BRIEF RECEIVED <i class="fa-solid fa-circle-check"></i>';
+                    alert('আপনার project brief সফলভাবে জমা হয়েছে। MR MOIN team শীঘ্রই যোগাযোগ করবে।');
+                    cyberForm.reset();
+                    updateLivePreview();
+                    return;
+                }
+            }
+
             const response = await fetch(cyberForm.action, {
                 method: 'POST',
                 body: formData,

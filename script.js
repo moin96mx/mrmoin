@@ -87,8 +87,27 @@ if (form) {
         const data = new FormData(event.target);
         const nameInput = form.querySelector("[name='name']");
         const userName = nameInput ? nameInput.value.trim() : "User";
+        const supabaseClient = window.supabase?.createClient(
+            window.MR_MOIN_SUPABASE?.url,
+            window.MR_MOIN_SUPABASE?.anonKey
+        );
 
         try {
+            if (supabaseClient) {
+                const { error } = await supabaseClient.from("project_inquiries").insert({
+                    name: userName,
+                    email: data.get("email"),
+                    subject: data.get("subject"),
+                    message: data.get("message")
+                });
+
+                if (!error) {
+                    alert(`Thanks ${userName}! আপনার মেসেজটি সফলভাবে জমা হয়েছে।`);
+                    form.reset();
+                    return;
+                }
+            }
+
             const response = await fetch("https://formspree.io/f/xyegrbro", {
                 method: "POST",
                 body: data,
