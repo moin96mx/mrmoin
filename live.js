@@ -315,7 +315,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const changeRoomBtn = $("changeRoom");
     if (changeRoomBtn) {
-        changeRoomBtn.changeRoomBtn?.addEventListener("click", () => {
+        changeRoomBtn.addEventListener("click", () => {
             if (!isAdmin) {
                 alert("Admin access required.");
                 return;
