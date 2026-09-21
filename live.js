@@ -69,6 +69,54 @@ document.addEventListener("DOMContentLoaded", async () => {
         wrap.parentNode.insertBefore(note, wrap);
     }
 
+    function isMobileDevice() {
+        return (
+            /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent || "") ||
+            (window.matchMedia &&
+                window.matchMedia("(pointer: coarse)").matches &&
+                window.innerWidth < 900)
+        );
+    }
+
+    // Direct link to the room, opened as its own page (not inside the iframe).
+    // The hash options skip Jitsi's "download the app" page on phones.
+    function buildDirectJoinUrl() {
+        return (
+            "https://meet.jit.si/" +
+            encodeURIComponent(currentRoom) +
+            "#config.disableDeepLinking=true" +
+            "&config.prejoinPageEnabled=true" +
+            "&userInfo.displayName=" +
+            encodeURIComponent(JSON.stringify(getGuestName()))
+        );
+    }
+
+    function showMobileJoinLink() {
+        if (!isMobileDevice()) return;
+
+        const wrap = document.querySelector(".live-main-container");
+        if (!wrap || !wrap.parentNode) return;
+
+        const box = document.createElement("div");
+        box.className = "mobile-join";
+
+        const text = document.createElement("span");
+        text.textContent = "ফোনে জয়েন বাটন কাজ না করলে সরাসরি কলে যোগ দিন:";
+
+        const link = document.createElement("a");
+        link.href = buildDirectJoinUrl();
+        link.target = "_blank";
+        link.rel = "noopener";
+        link.textContent = "নতুন ট্যাবে জয়েন করুন";
+        link.addEventListener("click", () => {
+            link.href = buildDirectJoinUrl();
+        });
+
+        box.appendChild(text);
+        box.appendChild(link);
+        wrap.parentNode.insertBefore(box, wrap);
+    }
+
     function showJitsiFallback(container) {
         container.innerHTML = "";
 
@@ -426,6 +474,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     showInAppBrowserNotice();
+    showMobileJoinLink();
     initJitsi(false);
 
     if (supabaseClient) {
