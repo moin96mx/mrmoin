@@ -105,7 +105,10 @@ if (cyberForm) {
 
                 if (!error) {
                     btn.innerHTML = 'PROJECT BRIEF RECEIVED <i class="fa-solid fa-circle-check"></i>';
-                    alert('আপনার project brief সফলভাবে জমা হয়েছে। MR MOIN team শীঘ্রই যোগাযোগ করবে।');
+                    alert('Website Request Submitted Successfully!
+                        আপনার selected website-এর request সফলভাবে গ্রহণ করা হয়েছে। আপনার প্রয়োজন ও পছন্দ অনুযায়ী design, features ও functionality customize করা যাবে।
+                        
+                        MR MOIN Team আপনার request review করে শীঘ্রই আপনার সাথে যোগাযোগ করবে।');
                     cyberForm.reset();
                     updateLivePreview();
                     return;
