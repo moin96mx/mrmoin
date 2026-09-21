@@ -240,6 +240,28 @@ textarea {
     border: 0;
 }
 
+.mobile-join {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    background: rgba(91, 141, 239, 0.12);
+    border: 1px solid var(--purple);
+    color: var(--white);
+    font-size: 13px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.mobile-join a {
+    background: var(--gold);
+    color: #000;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 8px;
+}
+
 .jitsi-fallback {
     height: 100%;
     display: flex;
