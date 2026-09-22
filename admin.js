@@ -35,9 +35,49 @@ document.addEventListener('DOMContentLoaded', () => {
     // Tracks whether each panel is currently showing archived records.
     const showArchived = { project: false, question: false, enrollment: false };
 
+    // Holds the last records fetched from Supabase for each panel, so search
+    // and status filtering can run instantly without a network round trip.
+    const cachedRecords = { project: [], question: [], event: [], enrollment: [] };
+
+    const searchInputs = {
+        project: document.getElementById('searchProjects'),
+        question: document.getElementById('searchQuestions'),
+        event: document.getElementById('searchEvents'),
+        enrollment: document.getElementById('searchEnrollments')
+    };
+    const statusFilters = {
+        project: document.getElementById('filterStatusProjects'),
+        question: document.getElementById('filterStatusQuestions'),
+        enrollment: document.getElementById('filterStatusEnrollments')
+    };
+
     const escapeHtml = (value = '') => String(value).replace(/[&<>'"]/g, character => ({
         '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
     }[character]));
+
+    // Which fields of a record are searched, per type.
+    function searchableText(type, record) {
+        const fieldsByType = {
+            project: ['name', 'email', 'phone', 'service', 'message'],
+            question: ['name', 'email', 'question'],
+            event: ['event_type', 'page_path', 'page_title', 'referrer', 'visitor_id'],
+            enrollment: ['name', 'email', 'phone', 'course']
+        };
+        return fieldsByType[type]
+            .map(field => record[field] || '')
+            .join(' ')
+            .toLowerCase();
+    }
+
+    function applyFilters(type, records) {
+        const searchTerm = (searchInputs[type]?.value || '').trim().toLowerCase();
+        const statusValue = statusFilters[type]?.value || 'all';
+        return records.filter(record => {
+            if (searchTerm && !searchableText(type, record).includes(searchTerm)) return false;
+            if (statusValue !== 'all' && record.status !== statusValue) return false;
+            return true;
+        });
+    }
 
     function actionsHtml(type, record) {
         const map = TABLE_MAP[type];
@@ -55,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showRecordList(element, records, type) {
         if (!records?.length) {
-            element.innerHTML = '<p class="muted">Nothing here yet.</p>';
+            element.innerHTML = '<p class="muted">Nothing matches your search/filter.</p>';
             return;
         }
 
@@ -80,6 +120,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }).join('');
     }
 
+    function renderPanel(type, element) {
+        showRecordList(element, applyFilters(type, cachedRecords[type]), type);
+    }
+
+    function renderAllPanels() {
+        renderPanel('project', projectList);
+        renderPanel('question', questionList);
+        renderPanel('event', eventList);
+        renderPanel('enrollment', enrollmentList);
+    }
+
     async function loadDashboard() {
         let projectQuery = client.from('project_inquiries').select('*').order('created_at', { ascending: false });
         if (!showArchived.project) projectQuery = projectQuery.neq('status', 'archived');
@@ -98,16 +149,16 @@ document.addEventListener('DOMContentLoaded', () => {
         ]);
 
         if (projectError) projectList.innerHTML = `<p class="status">Project table unavailable. Run supabase-schema.sql first.</p>`;
-        else showRecordList(projectList, projects, 'project');
+        else { cachedRecords.project = projects || []; renderPanel('project', projectList); }
 
         if (questionError) questionList.innerHTML = `<p class="status">Could not load live questions.</p>`;
-        else showRecordList(questionList, questions, 'question');
+        else { cachedRecords.question = questions || []; renderPanel('question', questionList); }
 
         if (eventError) eventList.innerHTML = `<p class="status">Run the updated schema to enable activity tracking.</p>`;
-        else showRecordList(eventList, events, 'event');
+        else { cachedRecords.event = events || []; renderPanel('event', eventList); }
 
         if (enrollmentError) enrollmentList.innerHTML = `<p class="status">Run the updated schema to enable course enrolments.</p>`;
-        else showRecordList(enrollmentList, enrollments, 'enrollment');
+        else { cachedRecords.enrollment = enrollments || []; renderPanel('enrollment', enrollmentList); }
     }
 
     async function handleRecordAction(event) {
@@ -139,6 +190,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     [projectList, questionList, enrollmentList, eventList].forEach(list => {
         list.addEventListener('click', handleRecordAction);
+    });
+
+    // Search boxes and status dropdowns filter the already-cached data
+    // instantly, with no extra Supabase request.
+    Object.entries(searchInputs).forEach(([type, input]) => {
+        if (!input) return;
+        input.addEventListener('input', () => renderPanel(type, { project: projectList, question: questionList, event: eventList, enrollment: enrollmentList }[type]));
+    });
+    Object.entries(statusFilters).forEach(([type, select]) => {
+        if (!select) return;
+        select.addEventListener('change', () => renderPanel(type, { project: projectList, question: questionList, enrollment: enrollmentList }[type]));
     });
 
     function wireArchiveToggle(buttonId, key) {
