@@ -25,6 +25,9 @@ input:focus, select:focus { border-color: var(--teal); }
 .dashboard-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
 .panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding-bottom: 16px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
 .panel-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.filter-row { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+.filter-row input { flex: 1 1 200px; font-size: 13px; padding: 9px 12px; }
+.filter-row select { flex: 0 0 160px; font-size: 13px; padding: 9px 12px; }
 .record-list { display: grid; gap: 12px; padding-top: 16px; }
 .record { border: 1px solid var(--line); border-radius: 7px; padding: 14px; }
 .record-top { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
@@ -33,4 +36,4 @@ input:focus, select:focus { border-color: var(--teal); }
 .record small { color: var(--text); }
 .record-actions { display: flex; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); }
 .status { color: var(--coral); min-height: 20px; font-size: 13px; }
-@media (max-width: 760px) { .admin-shell { width: min(100% - 28px, 560px); padding-top: 32px; } .admin-header { display: block; } .admin-header .button { margin-top: 18px; } .dashboard-grid { grid-template-columns: 1fr; } .panel-heading { align-items: flex-start; } }
+@media (max-width: 760px) { .admin-shell { width: min(100% - 28px, 560px); padding-top: 32px; } .admin-header { display: block; } .admin-header .button { margin-top: 18px; } .dashboard-grid { grid-template-columns: 1fr; } .panel-heading { align-items: flex-start; } .filter-row select { flex-basis: 100%; } }
