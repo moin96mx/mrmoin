@@ -35,24 +35,47 @@
     <section id="dashboardPanel" hidden>
       <div class="dashboard-grid">
         <article class="panel">
-          <div class="panel-heading"><h2>Project enquiries</h2><button id="refreshProjects" class="button small secondary">Refresh</button></div>
+          <div class="panel-heading">
+            <h2>Project enquiries</h2>
+            <div class="panel-actions">
+              <button id="toggleArchivedProjects" class="button small secondary" data-showing="false">Show archived</button>
+              <button id="refreshProjects" class="button small secondary">Refresh</button>
+            </div>
+          </div>
           <div id="projectList" class="record-list"><p class="muted">No project enquiries yet.</p></div>
         </article>
         <article class="panel">
-          <div class="panel-heading"><h2>Live questions</h2><button id="refreshQuestions" class="button small secondary">Refresh</button></div>
+          <div class="panel-heading">
+            <h2>Live questions</h2>
+            <div class="panel-actions">
+              <button id="toggleArchivedQuestions" class="button small secondary" data-showing="false">Show archived</button>
+              <button id="refreshQuestions" class="button small secondary">Refresh</button>
+            </div>
+          </div>
           <div id="questionList" class="record-list"><p class="muted">No live questions yet.</p></div>
         </article>
         <article class="panel">
-          <div class="panel-heading"><h2>Recent activity</h2><button id="refreshEvents" class="button small secondary">Refresh</button></div>
+          <div class="panel-heading">
+            <h2>Recent activity</h2>
+            <div class="panel-actions">
+              <button id="refreshEvents" class="button small secondary">Refresh</button>
+            </div>
+          </div>
           <div id="eventList" class="record-list"><p class="muted">No activity yet.</p></div>
         </article>
         <article class="panel">
-          <div class="panel-heading"><h2>Course enrolments</h2><button id="refreshEnrollments" class="button small secondary">Refresh</button></div>
+          <div class="panel-heading">
+            <h2>Course enrolments</h2>
+            <div class="panel-actions">
+              <button id="toggleArchivedEnrollments" class="button small secondary" data-showing="false">Show archived</button>
+              <button id="refreshEnrollments" class="button small secondary">Refresh</button>
+            </div>
+          </div>
           <div id="enrollmentList" class="record-list"><p class="muted">No enrolments yet.</p></div>
         </article>
       </div>
     </section>
   </main>
-  <script src="admin.js?v=4"></script>
+  <script src="admin.js?v=5"></script>
 </body>
 </html>
