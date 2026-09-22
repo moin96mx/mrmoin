@@ -36,4 +36,5 @@ input:focus, select:focus { border-color: var(--teal); }
 .record small { color: var(--text); }
 .record-actions { display: flex; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); }
 .status { color: var(--coral); min-height: 20px; font-size: 13px; }
+.load-more { width: 100%; margin-top: 14px; }
 @media (max-width: 760px) { .admin-shell { width: min(100% - 28px, 560px); padding-top: 32px; } .admin-header { display: block; } .admin-header .button { margin-top: 18px; } .dashboard-grid { grid-template-columns: 1fr; } .panel-heading { align-items: flex-start; } .filter-row select { flex-basis: 100%; } }
