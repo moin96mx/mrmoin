@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
 
-:root { --bg: #081423; --panel: #10233a; --line: rgba(155,181,204,.24); --text: #aab8c7; --white: #f5f7fa; --green: #4dd4a4; --teal: #65c7e8; --coral: #f2b84b; }
+:root { --bg: #081423; --panel: #10233a; --line: rgba(155,181,204,.24); --text: #aab8c7; --white: #f5f7fa; --green: #4dd4a4; --teal: #65c7e8; --coral: #f2b84b; --danger: #f2665a; }
 * { box-sizing: border-box; }
 body { margin: 0; min-height: 100vh; color: var(--white); background: linear-gradient(135deg, rgba(117,230,208,.06), transparent 45%), var(--bg); font-family: 'DM Sans', sans-serif; }
 .admin-shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 56px 0 80px; }
@@ -20,13 +20,17 @@ input:focus, select:focus { border-color: var(--teal); }
 .button.primary { color: #08100f; background: var(--green); }
 .button.secondary { color: var(--teal); background: transparent; border-color: rgba(117,230,208,.4); }
 .button.small { padding: 7px 11px; font-size: 12px; }
+.button.danger { color: var(--danger); background: transparent; border-color: rgba(242,102,90,.45); }
+.button:disabled { opacity: .5; cursor: not-allowed; }
 .dashboard-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
-.panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+.panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding-bottom: 16px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.panel-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 .record-list { display: grid; gap: 12px; padding-top: 16px; }
 .record { border: 1px solid var(--line); border-radius: 7px; padding: 14px; }
 .record-top { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
 .record strong { display: block; }
 .record p { color: var(--text); font-size: 13px; line-height: 1.6; margin: 9px 0 0; white-space: pre-wrap; }
 .record small { color: var(--text); }
+.record-actions { display: flex; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); }
 .status { color: var(--coral); min-height: 20px; font-size: 13px; }
-@media (max-width: 760px) { .admin-shell { width: min(100% - 28px, 560px); padding-top: 32px; } .admin-header { display: block; } .admin-header .button { margin-top: 18px; } .dashboard-grid { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { .admin-shell { width: min(100% - 28px, 560px); padding-top: 32px; } .admin-header { display: block; } .admin-header .button { margin-top: 18px; } .dashboard-grid { grid-template-columns: 1fr; } .panel-heading { align-items: flex-start; } }
