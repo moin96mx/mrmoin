@@ -26,7 +26,7 @@ html {
 }
 
 body {
-    font-family: "DM Sans", sans-serif;
+    font-family: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     background-color: var(--bg);
     background-image: linear-gradient(rgba(185, 242, 39, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(185, 242, 39, 0.035) 1px, transparent 1px);
     background-size: 48px 48px;
@@ -190,7 +190,7 @@ textarea {
     font-weight: 800;
     line-height: 1.1;
     letter-spacing: 0;
-    font-family: "Space Grotesk", sans-serif;
+    font-family: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     margin-bottom: 10px;
 }
 
