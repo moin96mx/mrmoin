@@ -7,23 +7,45 @@
   <title>MR MOIN | Programming & Technology Services in Bangladesh</title>
 
   <link rel="icon" type="image/png" href="https://mrmoin.xyz/img/x2.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+  <!-- Hero logo is the first thing visible: fetch it right away -->
+  <link rel="preload" as="image" href="img/x2.webp" fetchpriority="high">
+
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="brand.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7734G4YCEB"></script>
+  <!-- Non-blocking: Google Fonts + Font Awesome (swap in after first paint) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  </noscript>
+
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-7734G4YCEB');
+    // Load the Google tag after the page has finished loading (keeps it off the critical path)
+    window.addEventListener('load', function () {
+      setTimeout(function () {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-7734G4YCEB';
+        document.head.appendChild(s);
+      }, 1000);
+    }, { once: true });
   </script>
 </head>
 <body>
 
   <nav class="navbar">
     <div class="logo">
-      <img src="img/x2.png" alt="MR MOIN Logo" class="nav-logo-img">
+      <img src="img/x2.webp" alt="MR MOIN Logo" class="nav-logo-img" width="38" height="38" decoding="async">
       MR <span>MOIN</span>
     </div>
 
@@ -61,7 +83,7 @@
 
     <div class="hero-image">
       <div class="circle"></div>
-      <img src="img/x2.webp" alt="MR MOIN Brand Logo">
+      <img src="img/x2.webp" alt="MR MOIN Brand Logo" width="310" height="310" fetchpriority="high" decoding="async">
     </div>
   </section>
 
@@ -69,7 +91,7 @@
     <div class="about-image">
       <div class="image-box founder-image-box">
         <div class="founder-image-glow"></div>
-        <img src="img/mainMoin.webp" alt="Mr Moin — Founder & CEO">
+        <img src="img/mainMoin.webp" alt="Mr Moin — Founder & CEO" loading="lazy" decoding="async">
         <span class="vertical-text">ENGINEERING</span>
         <div class="founder-badge">
           <span class="badge-dot"></span>
@@ -160,7 +182,7 @@
     <div class="projects-grid">
       <div class="project-card">
         <div class="project-img-wrapper">
-          <img src="img/i.webp" alt="E-Commerce Project">
+          <img src="img/i.webp" alt="E-Commerce Project" loading="lazy" decoding="async">
         </div>
         <div class="project-content">
           <h3>Enterprise E-Commerce</h3>
@@ -174,7 +196,7 @@
 
       <div class="project-card">
         <div class="project-img-wrapper">
-          <img src="img/ixx.webp" alt="Portfolio Project">
+          <img src="img/ixx.webp" alt="Portfolio Project" loading="lazy" decoding="async">
         </div>
         <div class="project-content">
           <h3>Cybernetic Portfolio</h3>
@@ -188,7 +210,7 @@
 
       <div class="project-card">
         <div class="project-img-wrapper">
-          <img src="img/aa2.webp" alt="ElectroTech">
+          <img src="img/aa2.webp" alt="ElectroTech" loading="lazy" decoding="async">
         </div>
         <div class="project-content">
           <h3>ElectroTech (IoT Hub)</h3>
@@ -272,7 +294,7 @@
 
   <footer>
     <div class="logo">
-      <img src="img/x2.png" alt="MR MOIN Logo" class="footer-logo-img">
+      <img src="img/x2.webp" alt="MR MOIN Logo" class="footer-logo-img" width="38" height="38" loading="lazy" decoding="async">
       MR <span>MOIN</span>
     </div>
     <p>© 2026 MR MOIN. All rights reserved. Built with High-Tech Precision.</p>
@@ -285,9 +307,9 @@
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js"></script>
-  <script src="site-tracker.js"></script>
-  <script src="script.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="supabase-config.js"></script>
+  <script defer src="site-tracker.js"></script>
+  <script defer src="script.js"></script>
 </body>
 </html>
