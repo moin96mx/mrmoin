@@ -102,7 +102,7 @@ if (form) {
                 });
 
                 if (!error) {
-                    alert(`Thanks ${userName}! আপনার মেসেজটি সফলভাবে জমা হয়েছে।`);
+                    alert(`Thanks ${userName}! আপনার মেসেজটি সফলভাবে পৌঁছেছে। Mr. Moin খুব শীঘ্রই আপনার সাথে যোগাযোগ করবেন।`);
                     form.reset();
                     return;
                 }
