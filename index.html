@@ -315,10 +315,12 @@
       <input type="email" name="email" placeholder="Your Email Address" required>
       <input type="text" name="subject" placeholder="Subject / Protocol">
       <textarea name="message" placeholder="Type your message here..." required></textarea>
-      <label style="display:flex; gap:8px; align-items:flex-start; font-size:11px; color:#94a3b8; margin:8px 0 14px; line-height:1.5; cursor:pointer;">
-        <input type="checkbox" required style="margin-top:2px;">
-        <span>I agree to <a href="privacy.html">Privacy Policy</a> & <a href="terms.html">Terms</a>. Secured with ElectroHubBD-grade security.</span>
-      </label>
+      <div style="display:flex; align-items:flex-start; gap:10px; margin:12px 0 18px; padding:10px 12px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:10px;">
+        <input type="checkbox" required id="privacyCheck" style="width:16px; height:16px; margin-top:2px; flex-shrink:0; accent-color:#00f0ff; cursor:pointer;">
+        <label for="privacyCheck" style="font-size:11px; color:#94a3b8; line-height:1.6; cursor:pointer; margin:0;">
+          I agree to <a href="privacy.html" target="_blank" style="color:#00f0ff; text-decoration:underline;">Privacy Policy</a> & <a href="terms.html" target="_blank" style="color:#f2b84b; text-decoration:underline;">Terms</a>. Secured with ElectroHubBD-grade security.
+        </label>
+      </div>
 
       <button type="submit" class="btn primary-btn">
         TRANSMIT MESSAGE <i class="fa-solid fa-paper-plane"></i>
